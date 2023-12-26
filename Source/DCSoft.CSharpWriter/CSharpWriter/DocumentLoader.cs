@@ -13,7 +13,6 @@ using System.IO;
 using DCSoft.CSharpWriter.Dom;
 using DCSoft.CSharpWriter.Data;
 using DCSoft.HtmlDom;
-using DCSoft.CSharpWriter.Html;
 
 namespace DCSoft.CSharpWriter
 {
@@ -254,92 +253,6 @@ namespace DCSoft.CSharpWriter
         //    return loader.LoadOldXml(document, xmlDoc.DocumentElement);
         //}
 
-
-        public static void LoadHtmlFile(
-            System.IO.Stream stream ,
-            DomDocument document,
-            string baseUrl)
-        {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            HTMLDocument htmlDoc = new HTMLDocument();
-            htmlDoc.Load( stream );
-            htmlDoc.BaseURL = baseUrl;
-            HtmlLoader loader = new HtmlLoader();
-            loader.Load(htmlDoc, document);
-            document.AfterLoad(FileFormat.Html);
-        }
-
-        public static void LoadHtmlFile(
-            System.IO.TextReader reader,
-            DomDocument document , 
-            string baseUrl )
-        {
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            HTMLDocument htmlDoc = new HTMLDocument();
-            string html = reader.ReadToEnd();
-            htmlDoc.LoadHTML(html);
-            if (string.IsNullOrEmpty(baseUrl) == false)
-            {
-                htmlDoc.BaseURL = baseUrl;
-            }
-            HtmlLoader loader = new HtmlLoader();
-            loader.Load(htmlDoc, document);
-            document.AfterLoad(FileFormat.Html);
-        }
-
-        public static void LoadHtmlFile(
-            string url ,
-            DomDocument document )
-        {
-            if (url == null)
-            {
-                throw new ArgumentNullException("url");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            HTMLDocument htmlDoc = new HTMLDocument();
-            htmlDoc.LoadUrl(url);
-            document.BaseUrl = htmlDoc.BaseURL;
-            HtmlLoader loader = new HtmlLoader();
-            loader.Load(htmlDoc, document);
-            document.AfterLoad(FileFormat.Html);
-        }
-
-        //public static void LoadHtmlFile(
-        //    System.IO.Stream stream ,
-
-        //    XTextDocument document)
-        //{
-        //    if (url == null)
-        //    {
-        //        throw new ArgumentNullException("url");
-        //    }
-        //    if (document == null)
-        //    {
-        //        throw new ArgumentNullException("document");
-        //    }
-        //    HTMLDocument htmlDoc = new HTMLDocument();
-        //    htmlDoc.LoadUrl(url);
-        //    HtmlLoader loader = new HtmlLoader();
-        //    loader.Load(htmlDoc, document);
-        //    document.AfterLoad(FileFormat.Html);
-        //}
 
         public static void LoadTextFile(string fileName, DomDocument document)
         {

@@ -27,14 +27,6 @@ namespace DCSoft.CSharpWriter
 		/// <summary>
 		/// 纯文本
 		/// </summary>
-		Text,
-        /// <summary>
-        /// HTML文档
-        /// </summary>
-        Html,
-        ///// <summary>
-        ///// 旧版本XML格式。
-        ///// </summary>
-        //OldXML
+		Text
 	}
 }

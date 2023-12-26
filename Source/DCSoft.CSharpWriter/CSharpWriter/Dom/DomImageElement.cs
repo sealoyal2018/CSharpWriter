@@ -464,17 +464,6 @@ namespace DCSoft.CSharpWriter.Dom
             }
         }
 
-        /// <summary>
-        /// 输出对象数据到HTML文档
-        /// </summary>
-        /// <param name="writer">HTML文档书写器</param>
-        public override void WriteHTML(DCSoft.CSharpWriter.Html.WriterHtmlDocumentWriter writer)
-        {
-            if (this.Image.HasContent)
-            {
-                writer.WriteImageElement(this);
-            }
-        }
 
         /// <summary>
         /// 绘制图片文档内容

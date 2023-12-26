@@ -586,9 +586,6 @@
     <Compile Include="CSharpWriter\ElementEditor.cs" />
     <Compile Include="CSharpWriter\EnableState.cs" />
     <Compile Include="CSharpWriter\FileFormat.cs" />
-    <Compile Include="CSharpWriter\Html\HtmlLoader.cs" />
-    <Compile Include="CSharpWriter\Html\WriterHtmlDocumentWriter.cs" />
-    <Compile Include="CSharpWriter\Html\XHtmlWriter.cs" />
     <Compile Include="CSharpWriter\MoveUnit.cs" />
     <Compile Include="CSharpWriter\Printing\DocumentPrinter.cs" />
     <Compile Include="CSharpWriter\Printing\WriterPrintDocument.cs">

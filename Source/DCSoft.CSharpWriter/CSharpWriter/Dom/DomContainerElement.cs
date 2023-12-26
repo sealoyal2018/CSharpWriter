@@ -9,21 +9,19 @@ Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using DCSoft.CSharpWriter.Html;
 using DCSoft.CSharpWriter.Script;
 using System.Text;
-using System.Drawing;
 
 namespace DCSoft.CSharpWriter.Dom
 {
-	/// <summary>
-	/// 容器元素对象
-	/// </summary>
-	/// <remarks>
-	/// 本类型是从XTextElement上派生的容器文本文档元素类型,它能包含其他的文本文档元素,
-	/// 还可以包含其他的容器元素.是文本文档对象模型中比较基础的类型.
-	/// 编制 袁永福 2007-3-21
-	/// </remarks>
+    /// <summary>
+    /// 容器元素对象
+    /// </summary>
+    /// <remarks>
+    /// 本类型是从XTextElement上派生的容器文本文档元素类型,它能包含其他的文本文档元素,
+    /// 还可以包含其他的容器元素.是文本文档对象模型中比较基础的类型.
+    /// 编制 袁永福 2007-3-21
+    /// </remarks>
     [Serializable()]
 	public class DomContainerElement : DomElement
 	{
@@ -474,50 +472,6 @@ namespace DCSoft.CSharpWriter.Dom
             return result;
 		}
 
-        public override void WriteHTML(WriterHtmlDocumentWriter writer)
-		{
-			WriteContentHTML( writer );
-		}
-
-		protected virtual void WriteContentHTML( WriterHtmlDocumentWriter writer )
-		{
-			DomElementList list = WriterUtils.MergeElements( 
-                this.Elements ,
-                true );
-			if( list != null && list.Count > 0 )
-			{
-				foreach( DomElement element in list )
-				{
-					if( writer.IncludeSelectionOndly == false
-                        || element.HasSelection )
-					{
-						element.WriteHTML( writer );
-					}
-				}
-			}
-		}
-
-        //public virtual void WriteCotentDocument( DocumentContentWriter writer )
-        //{
-        //    XTextElementList list = WriterUtils.MergeParagraphs(
-        //        this.Elements ,
-        //        writer.IncludeSelectionOnly );
-        //    if( list != null && list.Count > 0 )
-        //    {
-        //        foreach( XTextElement element in list )
-        //        {
-        //            //if (writer.IncludeSelectionOnly == false
-        //            //    || element.HasSelection)
-        //            if (this is XTextTableCellElement)
-        //            {
-                        
-        //            }
-        //            {
-        //                element.WriteRTF( writer );
-        //            }
-        //        }//foreach
-        //    }
-        //}
 
         /// <summary>
         /// 返回预览对象内容的字符串

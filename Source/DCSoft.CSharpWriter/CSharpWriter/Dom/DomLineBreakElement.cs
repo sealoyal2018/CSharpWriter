@@ -7,14 +7,13 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using DCSoft.CSharpWriter.Html;
 
 
 namespace DCSoft.CSharpWriter.Dom
 {
-	/// <summary>
-	/// 换行元素
-	/// </summary>
+    /// <summary>
+    /// 换行元素
+    /// </summary>
     /// <remarks>编制 袁永福</remarks>
     [System.Xml.Serialization.XmlType("XLineBreak")]
     [Serializable()]
@@ -60,9 +59,5 @@ namespace DCSoft.CSharpWriter.Dom
 			return System.Environment.NewLine ;
 		}
 
-		public override void WriteHTML(WriterHtmlDocumentWriter writer)
-		{
-			writer.WriteElementString("br" , "");
-		}
 	}
 }

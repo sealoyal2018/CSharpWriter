@@ -11,7 +11,6 @@ using System.Text;
 using DCSoft.Common;
 using DCSoft.CSharpWriter.Controls;
 using DCSoft.Drawing;
-using DCSoft.CSharpWriter.Html;
 using System.ComponentModel;
 using System.Windows.Forms;
 using System.Drawing;
@@ -1097,31 +1096,6 @@ namespace DCSoft.CSharpWriter.Dom
                     string xml = writer.ToString();
                     obj.SetData(XMLDataFormat, xml);
                 }
-                // 设置HTML数据
-                WriterHtmlDocumentWriter htmlWriter = new WriterHtmlDocumentWriter();
-                htmlWriter.Documents.Add(this.Document);
-                htmlWriter.Options.Indent = true;
-                htmlWriter.Options.KeepLineBreak = true;
-                htmlWriter.Options.UseClassAttribute = true;
-                htmlWriter.IncludeSelectionOndly = true;
-                htmlWriter.Options.OutputHeaderFooter = false;
-                htmlWriter.WritingExcelHtml = false;
-                htmlWriter.ViewStyle = WriterHtmlViewStyle.Normal;
-                htmlWriter.Refresh();
-                string html = htmlWriter.DocumentHtml;
-                if (html != null && html.Length > 0)
-                {
-                    obj.SetData(System.Windows.Forms.DataFormats.Html, html);
-                }
-                //				// 设置HTML数据
-                //				XHtmlWriter hw = new XHtmlWriter( true );
-                //				hw.IncludeSelectionOndly = true ;
-                //				this.WriteHTML( hw );
-                //				string html = hw.ToString();
-                //				if( html != null && html.Length > 0 )
-                //				{
-                //					obj.SetData( System.Windows.Forms.DataFormats.Html , html );
-                //				}
                 return obj;
             }
             return null;

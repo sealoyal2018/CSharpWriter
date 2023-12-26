@@ -8,13 +8,11 @@ Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel;
 using System.Xml.Serialization;
 using DCSoft.Printing;
 using DCSoft.Drawing;
 using System.Drawing;
-using DCSoft.CSharpWriter.Html;
 using DCSoft.Common;
 
 namespace DCSoft.CSharpWriter.Dom
@@ -1831,146 +1829,6 @@ namespace DCSoft.CSharpWriter.Dom
                 }
             }
             return result ;
-        }
-
-        public override void WriteHTML(WriterHtmlDocumentWriter writer)
-        {
-            // 段落中第一行对象
-            int paragraphStartLineIndex = 0;
-            // 段落分组列表
-            ListDictionary<DomParagraphFlagElement, List<DomContentLine>> paragraphs
-                = new ListDictionary<DomParagraphFlagElement, List<DomContentLine>>();
-            // 按照所属段落对所有的文本行进行分组
-            for (int iCount = 0; iCount < this.PrivateLines.Count; iCount++)
-            {
-                DomContentLine line = this.PrivateLines[iCount];
-                if (line.LastElement is DomParagraphFlagElement)
-                {
-                    List<DomContentLine> lines = new List<DomContentLine>();
-                    for (int iCount2 = paragraphStartLineIndex; iCount2 <= iCount; iCount2++)
-                    {
-                        DomContentLine line2 = this.PrivateLines[iCount2];
-                        // 判断该行是否输出
-                        if (writer.ClipRectangle.IsEmpty == false)
-                        {
-                            if (writer.ClipRectangle.IntersectsWith(
-                                Rectangle.Ceiling(line2.AbsBounds)) == false)
-                            {
-                                // 该文本行不输出
-                                continue;
-                            }//if
-                        }//if
-                        if (writer.IncludeSelectionOndly)
-                        {
-                            // 判断是否包含被选中的内容
-                            bool output = false;
-                            foreach (DomElement element in line2)
-                            {
-                                if (element.HasSelection)
-                                {
-                                    output = true;
-                                    break;
-                                }
-                            }//foreach
-                            if (output == false)
-                            {
-                                continue;
-                            }
-                        }
-                        lines.Add(line2);
-                    }//for
-                    if (lines.Count > 0)
-                    {
-                        paragraphs[(DomParagraphFlagElement)line.LastElement] = lines;
-                    }
-                    paragraphStartLineIndex = iCount + 1;
-                }//if
-            }//for
-
-            // 最后一个段落列表样式
-            ParagraphListStyle lastListStyle = ParagraphListStyle.None;
-            foreach (DomParagraphFlagElement flag in paragraphs.Keys)
-            {
-                if (flag.ListStyle != lastListStyle)
-                {
-                    if (lastListStyle == ParagraphListStyle.BulletedList
-                        || lastListStyle == ParagraphListStyle.NumberedList)
-                    {
-                        writer.WriteEndElement();
-                    }
-                    lastListStyle = flag.ListStyle;
-                    if (lastListStyle == ParagraphListStyle.BulletedList)
-                    {
-                        writer.WriteStartElement("ul");
-                    }
-                    else if (lastListStyle == ParagraphListStyle.NumberedList)
-                    {
-                        writer.WriteStartElement("ol");
-                    }
-                }
-                if (lastListStyle == ParagraphListStyle.BulletedList
-                    || lastListStyle == ParagraphListStyle.NumberedList)
-                {
-                    writer.WriteStartElement("li");
-                }
-                else
-                {
-                    writer.WriteStartElement("p");
-                }
-                DocumentContentStyle pstyle = flag.RuntimeStyle ;
-                writer.WriteStartStyle();
-                writer.WriteDocumentContentStyle(pstyle, flag);
-                writer.WriteEndStyle();
-                // 输出文本行内容
-                int lineIndex = 0;
-                
-                foreach (DomContentLine line in paragraphs[flag])
-                {
-                    bool keepLineBreak = false;
-                    if (lineIndex > 0
-                        && this is DomDocumentContentElement
-                        && writer.Options.KeepLineBreak )
-                    {
-                        keepLineBreak = true;
-                    }
-
-                    if (keepLineBreak)
-                    {
-                        writer.WriteStartElement("br");
-                        writer.WriteEndElement();
-                    }
-                    lineIndex++;
-                    DomElementList elements = WriterUtils.MergeElements(
-                        line,
-                        writer.IncludeSelectionOndly);
-                    //if (splitLines)
-                    //{
-                    //    writer.WriteStartElement("span");
-                    //    writer.WriteStartStyle();
-                    //    writer.WriteStyleItem("white-space", "nowrap");
-                    //    writer.WriteStyleItem("text-align", "justify");
-                    //    //writer.WriteStyleItem("width", "100%");
-                    //    writer.WriteEndStyle();
-                    //}
-                    foreach (DomElement element in elements )
-                    {
-                        element.WriteHTML(writer);
-                    }
-                    //if (keepLineBreak)
-                    //{
-                    //    writer.WriteEndElement();
-                    //}
-                }//foreach
-                // 结束处理一个段落
-                writer.WriteEndElement();
-            }//foreach
-
-            if (lastListStyle == ParagraphListStyle.BulletedList
-                || lastListStyle == ParagraphListStyle.NumberedList)
-            {
-                writer.WriteEndElement();
-            }
-
         }
 
         /// <summary>

@@ -1133,14 +1133,6 @@ namespace DCSoft.CSharpWriter.Dom
         }
          
 		#region 加载和保存文档内容的成员群 ************************************
-
-
-        public override void WriteHTML(DCSoft.CSharpWriter.Html.WriterHtmlDocumentWriter writer)
-		{
-            writer.DefaultFont = this.DefaultStyle.Font.Value;
-			base.WriteHTML (writer);
-		}
-
         /// <summary>
         /// 正在进行反序列化操作的标记
         /// </summary>
@@ -1241,10 +1233,6 @@ namespace DCSoft.CSharpWriter.Dom
                 DocumentLoader.LoadXmlFile(fileName, this);
             }
            
-            else if (format == FileFormat.Html)
-            {
-                DocumentLoader.LoadHtmlFile(fileName, this );
-            }
             this.FileName = fileName;
             this.BaseUrl = WriterUtils.GetBaseURL(fileName);
             this.Modified = false;
@@ -1288,17 +1276,6 @@ namespace DCSoft.CSharpWriter.Dom
             {
                 DocumentLoader.LoadXmlFile(reader, this);
             }
-            //else if (format == FileFormat.OldXML)
-            //{
-            //    // 不支持
-            //    DocumentLoader.LoadOldXmlFile(reader, this);
-
-            //    //throw new NotSupportedException("OldXML");
-            //}
-            else if (format == FileFormat.Html)
-            {
-                DocumentLoader.LoadHtmlFile(reader, this , null );
-            }
             this.Modified = false;
             if (this.UndoList != null)
             {
@@ -1338,14 +1315,6 @@ namespace DCSoft.CSharpWriter.Dom
             else if (format == FileFormat.XML)
             {
                 DocumentLoader.LoadXmlFile(stream, this);
-            }
-            //else if (format == FileFormat.OldXML)
-            //{
-            //    DocumentLoader.LoadOldXmlFile(stream, this);
-            //}
-            else if (format == FileFormat.Html)
-            {
-                DocumentLoader.LoadHtmlFile(stream, this , this.BaseUrl );
             }
             this.Modified = false;
             if (this.UndoList != null)
@@ -1400,10 +1369,6 @@ namespace DCSoft.CSharpWriter.Dom
                 {
                     this._SpecialTag = back;
                 }
-            }
-            else if (format == FileFormat.Html)
-            {
-                //DocumentSaver.SaveHtmlFile(fileName, true, this);
             }
             this.FileName = fileName;
             this.Modified = false;

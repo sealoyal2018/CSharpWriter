@@ -241,56 +241,6 @@ namespace DCSoft.CSharpWriter.Commands
         }
 
         /// <summary>
-        /// 向文档的当前位置插入Html内容。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        [WriterCommandDescription(StandardCommandNames.InsertHtml)]
-        protected void InsertHtml(object sender, WriterCommandEventArgs args)
-        {
-            if (args.Mode == WriterCommandEventMode.QueryState)
-            {
-                args.Enabled = args.DocumentControler != null
-                    && args.Document != null
-                    && args.DocumentControler.CanInsertElementAtCurrentPosition(
-                    typeof(DomElement));
-            }
-            else if (args.Mode == WriterCommandEventMode.Invoke)
-            {
-                args.Result = false;
-
-                DomDocument document = null;
-                if (args.Parameter is string)
-                {
-                    System.IO.StringReader reader = new System.IO.StringReader(
-                        (string)args.Parameter);
-                    document = (DomDocument)System.Activator.CreateInstance(args.Document.GetType());
-                    DocumentLoader.LoadHtmlFile(reader, document, null);
-                    reader.Close();
-                }
-                else if (args.Parameter is System.IO.Stream)
-                {
-                    document = (DomDocument)Activator.CreateInstance(args.Document.GetType());
-                    document.Load((System.IO.Stream)args.Parameter, FileFormat.Html);
-                }
-                else if (args.Parameter is System.IO.TextReader)
-                {
-                    document = (DomDocument)System.Activator.CreateInstance(args.Document.GetType());
-                    DocumentLoader.LoadHtmlFile((System.IO.TextReader)args.Parameter, document, null);
-                }
-                if (document != null
-                    && document.Body != null
-                    && document.Body.Elements.Count > 0)
-                {
-                    DomElementList list = document.Body.Elements;
-                    args.Document.ImportElements(list);
-                    args.DocumentControler.InsertElements(list);
-                    args.Result = list;
-                }
-            }
-        }
-
-        /// <summary>
         /// 向文档的当前位置插入XML内容。
         /// </summary>
         /// <param name="sender"></param>

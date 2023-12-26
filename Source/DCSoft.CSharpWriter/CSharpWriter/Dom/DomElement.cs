@@ -7,24 +7,22 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using System.Xml.Serialization ;
-using System.ComponentModel ;
-using DCSoft.Drawing ;
+using System.Xml.Serialization;
+using System.ComponentModel;
+using DCSoft.Drawing;
 using DCSoft.Common;
 using System.Drawing;
-using DCSoft.CSharpWriter.Html;
-using DCSoft.CSharpWriter.Script;
 
 namespace DCSoft.CSharpWriter.Dom
 {
-	/// <summary>
-	/// 文档元素基础类型
-	/// </summary>
-	/// <remarks>
-	/// 本类型是文本文档对象模型的最基础的类型,任何其他的文本文档对象类型都是从该类型
-	/// 派生的,本类型定义了所有文本文档对象所需要的通用程序,并定义了一些常用例程.
-	/// 编制 袁永福 2012-1-12
-	/// </remarks>
+    /// <summary>
+    /// 文档元素基础类型
+    /// </summary>
+    /// <remarks>
+    /// 本类型是文本文档对象模型的最基础的类型,任何其他的文本文档对象类型都是从该类型
+    /// 派生的,本类型定义了所有文本文档对象所需要的通用程序,并定义了一些常用例程.
+    /// 编制 袁永福 2012-1-12
+    /// </remarks>
     [System.Xml.Serialization.XmlType("Element")]
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
@@ -1141,14 +1139,6 @@ namespace DCSoft.CSharpWriter.Dom
         public virtual string ToDebugString()
         {
             return this.GetType().Name + "(" + this.ID + ")";
-        }
-
-        /// <summary>
-        /// 输出HTML代码
-        /// </summary>
-        /// <param name="writer">XML书写器</param>
-        public virtual void WriteHTML(WriterHtmlDocumentWriter writer)
-        {
         }
 
         ///// <summary>

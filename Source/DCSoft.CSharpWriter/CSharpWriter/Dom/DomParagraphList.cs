@@ -6,15 +6,12 @@ It can use in WinForm.NET ,WPF,Console application.Any idea about CSharpWriter
 can write to 28348092@qq.com(or yyf9989@hotmail.com). 
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
-using System;
-using DCSoft.CSharpWriter.Html;
-
 namespace DCSoft.CSharpWriter.Dom
 {
-	/// <summary>
-	/// 段落列表对象
-	/// </summary>
-	public class DomParagraphList : DomContainerElement
+    /// <summary>
+    /// 段落列表对象
+    /// </summary>
+    public class DomParagraphList : DomContainerElement
 	{
 		/// <summary>
 		/// 初始化对象
@@ -36,29 +33,5 @@ namespace DCSoft.CSharpWriter.Dom
 			set{ intListStyle = value;}
 		}
 
-		public override void WriteHTML(WriterHtmlDocumentWriter writer)
-		{
-			if( intListStyle == ParagraphListStyle.BulletedList )
-			{
-				writer.WriteStartElement("ul");
-			}
-			else
-			{
-				writer.WriteStartElement("ol");
-			}
-			DomElementList list = WriterUtils.MergeElements( this.Elements , false );
-			if( list != null && list.Count > 0 )
-			{
-				foreach( DomElement element in list )
-				{
-					if( writer.IncludeSelectionOndly == false
-                        || element.HasSelection )
-					{
-						element.WriteHTML( writer );
-					}
-				}
-			}
-			writer.WriteEndElement();
-		}
 	}
 }

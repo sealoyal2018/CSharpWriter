@@ -35,53 +35,6 @@ namespace DCSoft.CSharpWriter.Commands
         }
 
         /// <summary>
-        /// 打开指定URL地址的文档
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        [WriterCommandDescription( StandardCommandNames.FileOpenUrl )]
-        protected void FileOpenUrl(object sender, WriterCommandEventArgs args)
-        {
-            if (args.Mode == WriterCommandEventMode.QueryState)
-            {
-                args.Enabled = args.Document != null;
-            }
-            else if (args.Mode == WriterCommandEventMode.Invoke)
-            {
-                string url = Convert.ToString(args.Parameter);
-                if (args.ShowUI)
-                {
-                    using (DCSoft.WinForms.Native.dlgInputUrl dlg 
-                        = new DCSoft.WinForms.Native.dlgInputUrl())
-                    {
-                        dlg.InputURL = url;
-                        if (dlg.ShowDialog(args.EditorControl) == DialogResult.OK)
-                        {
-                            url = dlg.InputURL;
-                        }
-                        else
-                        {
-                            return;
-                        }
-                    }
-                }
-                if (string.IsNullOrEmpty(url) == false)
-                {
-                    url = url.Trim();
-                    string basePath = WriterUtils.GetBaseURL(url);
-
-                    args.EditorControl.LoadDocument(url, FileFormat.Html);
-                    args.Document.FileName = url;
-                    args.Document.Modified = false;
-                    args.Document.OnSelectionChanged();
-                    args.Document.OnDocumentContentChanged();
-                    args.Result = true;
-                    args.RefreshLevel = UIStateRefreshLevel.All;
-                }
-            }
-        }
-
-        /// <summary>
         /// 打开文件
         /// </summary>
         /// <param name="sender"></param>
