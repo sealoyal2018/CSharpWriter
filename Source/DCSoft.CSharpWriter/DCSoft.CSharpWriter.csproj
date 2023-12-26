@@ -169,38 +169,6 @@
     <Compile Include="Printing\XPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Script\dlgBrowseGACAssembly.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Script\dlgBrowseGACAssembly.Designer.cs">
-      <DependentUpon>dlgBrowseGACAssembly.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Script\dlgInputBox.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Script\dlgScriptOptions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Script\dlgScriptOptions.Designer.cs">
-      <DependentUpon>dlgScriptOptions.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Script\DotNetAssemblyInfo.cs" />
-    <Compile Include="Script\DynamicCompiler.cs" />
-    <Compile Include="Script\MyStringList.cs" />
-    <Compile Include="Script\ScriptAssemblyBuffer.cs" />
-    <Compile Include="Script\ScriptError.cs" />
-    <Compile Include="Script\ScriptExpression.cs" />
-    <Compile Include="Script\ScriptExpressionPropertyTab.cs" />
-    <Compile Include="Script\ScriptOptionsEditor.cs" />
-    <Compile Include="Script\ScriptStrings.Designer.cs">
-      <DependentUpon>ScriptStrings.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Script\XVBAEngine.cs" />
-    <Compile Include="Script\XVBAOptions.cs" />
-    <Compile Include="Script\XVBAScriptGlobalObject.cs" />
-    <Compile Include="Script\XVBAWindowObject.cs" />
     <Compile Include="WinForms\ApplicationStyle.cs" />
     <Compile Include="WinForms\BorderUserControl.cs">
       <SubType>UserControl</SubType>
@@ -504,25 +472,6 @@
     <Compile Include="CSharpWriter\EnableState.cs" />
     <Compile Include="CSharpWriter\FileFormat.cs" />
     <Compile Include="CSharpWriter\MoveUnit.cs" />
-    <Compile Include="CSharpWriter\Script\dlgExpressionEditor.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CSharpWriter\Script\dlgExpressionEditor.Designer.cs">
-      <DependentUpon>dlgExpressionEditor.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CSharpWriter\Script\DocumentScriptEngine.cs" />
-    <Compile Include="CSharpWriter\Script\DomExpression.cs" />
-    <Compile Include="CSharpWriter\Script\DomExpressionEventArgs.cs" />
-    <Compile Include="CSharpWriter\Script\DomExpressionExecuter.cs" />
-    <Compile Include="CSharpWriter\Script\DomExpressionList.cs" />
-    <Compile Include="CSharpWriter\Script\frmScriptEdtior.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CSharpWriter\Script\frmScriptEdtior.Designer.cs">
-      <DependentUpon>frmScriptEdtior.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CSharpWriter\Script\ScriptGlobalObjectContainer.cs" />
-    <Compile Include="CSharpWriter\Script\WriterWindow.cs" />
     <Compile Include="CSharpWriter\Security\DocumentSecurityOptions.cs" />
     <Compile Include="CSharpWriter\Security\UserHistoryInfo.cs" />
     <Compile Include="CSharpWriter\Security\UserHistoryInfoList.cs" />
@@ -603,9 +552,6 @@
     <EmbeddedResource Include="CSharpWriter\Controls\dlgAbout.zh-cn.resx">
       <DependentUpon>dlgAbout.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CSharpWriter\Script\frmScriptEdtior.zh-cn.resx">
-      <DependentUpon>frmScriptEdtior.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="CSharpWriter\WriterStrings.zh-cn.resx" />
     <EmbeddedResource Include="Data\DataStrings.en.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -663,39 +609,6 @@
       <LastGenOutput>PrintingResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Printing\PrintingResources.zh-cn.resx" />
-    <EmbeddedResource Include="Script\dlgBrowseGACAssembly.en.resx">
-      <DependentUpon>dlgBrowseGACAssembly.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\dlgBrowseGACAssembly.resx">
-      <DependentUpon>dlgBrowseGACAssembly.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\dlgInputBox.en.resx">
-      <DependentUpon>dlgInputBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\dlgInputBox.resx">
-      <DependentUpon>dlgInputBox.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\dlgScriptOptions.en.resx">
-      <DependentUpon>dlgScriptOptions.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\dlgScriptOptions.resx">
-      <DependentUpon>dlgScriptOptions.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\ScriptStrings.en.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\ScriptStrings.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>ScriptStrings.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Script\ScriptStrings.zh-cn.resx" />
     <EmbeddedResource Include="WinForms\BorderUserControl.resx">
       <DependentUpon>BorderUserControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -787,15 +700,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CSharpWriter\Controls\CSWriterControl.resx">
       <DependentUpon>CSWriterControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CSharpWriter\Script\dlgExpressionEditor.resx">
-      <DependentUpon>dlgExpressionEditor.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CSharpWriter\Script\frmScriptEdtior.en.resx">
-      <DependentUpon>frmScriptEdtior.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CSharpWriter\Script\frmScriptEdtior.resx">
-      <DependentUpon>frmScriptEdtior.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="CSharpWriter\WriterResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -919,7 +823,6 @@
     <EmbeddedResource Include="CSharpWriter\Commands\Images\CommandAlignBottomCenter.bmp" />
     <EmbeddedResource Include="CSharpWriter\Commands\Images\CommandAboutControl.bmp" />
     <Content Include="Drawing\Resources\Workspace-Background.jpg" />
-    <Content Include="Script\VBAScript.ico" />
     <EmbeddedResource Include="WinForms\XCursors\ZoomOut.cur" />
     <EmbeddedResource Include="WinForms\XCursors\ZoomIn.cur" />
     <EmbeddedResource Include="WinForms\XCursors\RightArrow.cur" />
@@ -936,7 +839,6 @@
     <EmbeddedResource Include="WinForms\XCursors\Black.cur" />
     <EmbeddedResource Include="WinForms\Resources\picBorderPreview.Image.bmp" />
     <None Include="WinForms\Resources\Blank16_16.bmp" />
-    <EmbeddedResource Include="Script\ScriptExpressionPropertyTabBmp.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

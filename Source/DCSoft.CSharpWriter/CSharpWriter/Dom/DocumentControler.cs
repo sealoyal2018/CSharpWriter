@@ -1086,11 +1086,6 @@ namespace DCSoft.CSharpWriter.Dom
                 // 设置XML数据
                 using (DomDocument selectionDocument = selection.CreateDocument())
                 {
-                    //if (this.EditorControl != null)
-                    //{
-                    //    selectionDocument.EditorControlHandle = this.EditorControl.Handle.ToInt32();
-                    //}
-                    selectionDocument.ScriptText = null;
                     System.IO.StringWriter writer = new System.IO.StringWriter();
                     DocumentSaver.SaveXmlFile(writer, selectionDocument);
                     string xml = writer.ToString();

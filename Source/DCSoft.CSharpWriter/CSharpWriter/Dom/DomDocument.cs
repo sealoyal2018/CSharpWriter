@@ -23,7 +23,6 @@ using System.Drawing;
 using DCSoft.CSharpWriter.Commands;
 using System.IO;
 using System.Text;
-using DCSoft.CSharpWriter.Script;
 using DCSoft.CSharpWriter.Security;
 
 
@@ -106,73 +105,7 @@ namespace DCSoft.CSharpWriter.Dom
         new public int ElementIndex { get { return 0; } }
         
         #endregion
-
-        #region VBA脚本相关的代码
-
-        private string _ScriptText = null;
-        /// <summary>
-        /// VBA脚本代码
-        /// </summary>
-        [DefaultValue( null)]
-        [Category("Behavior")]
-        public string ScriptText
-        {
-            get
-            {
-                return _ScriptText; 
-            }
-            set
-            {
-                _ScriptText = value; 
-            }
-        }
-
-        [NonSerialized]
-        private DocumentScriptEngine _ScriptEngine = null;
-        /// <summary>
-        /// 脚本引擎
-        /// </summary>
-        [Browsable( false )]
-        [System.Xml.Serialization.XmlIgnore]
-        public DocumentScriptEngine ScriptEngine
-        {
-            get
-            {
-                if (_ScriptEngine == null)
-                {
-                    _ScriptEngine = new DocumentScriptEngine();
-                    _ScriptEngine.Document = this;
-                }
-                return _ScriptEngine; 
-            }
-            set
-            {
-                _ScriptEngine = value; 
-            }
-        }
-
-        public string GetDebugText()
-        {
-            StringBuilder str = new StringBuilder();
-            str.AppendLine("Title:" + this.Info.Title);
-            str.AppendLine("FileName:" + this.FileName);
-            str.AppendLine("Body Elements:" + (this.Body.Elements == null ? "NULL" : this.Body.Elements.Count.ToString()));
-            string txt = this.BodyText;
-            if (txt != null && txt.Length > 100)
-            {
-                txt = txt.Substring(0, 100);
-                txt = txt.Replace("\r", " ");
-                txt = txt.Replace("\n", " ");
-            }
-            str.AppendLine("Body XElements:" + (this.Body.ElementsForSerialize == null ? "NULL" : this.Body.ElementsForSerialize.Count.ToString()));
-            str.AppendLine("Body Text:" + txt );
-            return str.ToString();
-        }
- 
-
-        #endregion
-
-        
+               
 
         private bool _Initializing = false;
 
@@ -979,14 +912,6 @@ namespace DCSoft.CSharpWriter.Dom
         /// <param name="args">事件参数</param>
         public virtual void OnDocumentLoad(EventArgs args)
         {
-            // 触发脚本
-            if (this.Options.BehaviorOptions.EnableScript)
-            {
-                this.ScriptEngine.ExecuteSub(
-                    this,
-                    DocumentScriptEngine.Document_DocumentLoad);
-            }
-
             if (DocumentLoad != null)
             {
                 DocumentLoad(this, args);
@@ -1016,13 +941,6 @@ namespace DCSoft.CSharpWriter.Dom
         /// <param name="args"></param>
         public virtual void OnDocumentContentChanged( )
         {
-            // 触发脚本
-            if (this.Options.BehaviorOptions.EnableScript)
-            {
-                this.ScriptEngine.ExecuteSub(
-                    this,
-                    DocumentScriptEngine.Document_DocumentContentChanged);
-            }
             this._HoverElement = null;
             if (this.EditorControl != null)
             {
@@ -1044,13 +962,6 @@ namespace DCSoft.CSharpWriter.Dom
         /// </summary>
         public void OnSelectionChanged( )
         {
-            // 触发脚本
-            if (this.Options.BehaviorOptions.EnableScript)
-            {
-                this.ScriptEngine.ExecuteSub(
-                    this,
-                    DocumentScriptEngine.Document_SelectionChanged);
-            }
             DomDocumentContentElement ce = this.CurrentContentElement;
             if (this.EditorControl != null)
             {
@@ -1181,7 +1092,6 @@ namespace DCSoft.CSharpWriter.Dom
                 this._PageRefreshed = false;
                 this._Pages = new PrintPageCollection();
                 this._RawPageIndex = 0;
-                this._ScriptEngine = null;
                 //if( sourceDocument._UndoList != null )
                 //{
                 //    this._UndoList = new XTextDocumentUndoList( this );
@@ -1206,7 +1116,6 @@ namespace DCSoft.CSharpWriter.Dom
                 {
                     this._Options = sourceDocument._Options.Clone();
                 }
-                this.ScriptText = sourceDocument.ScriptText;
             }
         }
         /// <summary>
@@ -1493,12 +1402,6 @@ namespace DCSoft.CSharpWriter.Dom
                 this.UserHistories.Clear();
             }
             // 清空脚本
-            this.ScriptText = null;
-            if (this.ScriptEngine != null)
-            {
-                this.ScriptEngine.Close();
-                this.ScriptEngine = null;
-            }
 
             this.ContentStyles.Clear();
             if (this.DefaultFont != null)

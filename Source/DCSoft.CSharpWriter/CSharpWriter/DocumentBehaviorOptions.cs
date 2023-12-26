@@ -110,23 +110,6 @@ namespace DCSoft.CSharpWriter
         //    set { _Readonly = value; }
         //}
 
-        private bool _EnableScript = true;
-        /// <summary>
-        /// 允许VBA宏脚本。默认为true。
-        /// </summary>
-        [DefaultValue( true )]
-        public bool EnableScript
-        {
-            get
-            {
-                return _EnableScript; 
-            }
-            set
-            {
-                _EnableScript = value; 
-            }
-        }
-
         /// <summary>
         /// 复制对象
         /// </summary>

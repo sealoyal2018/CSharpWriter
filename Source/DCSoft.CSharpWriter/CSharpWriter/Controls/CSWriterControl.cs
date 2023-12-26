@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using DCSoft.CSharpWriter.Undo;
 using System.Text;
 using DCSoft.CSharpWriter.Security;
-using DCSoft.CSharpWriter.Script;
 
 namespace DCSoft.CSharpWriter.Controls
 {
@@ -1427,7 +1426,6 @@ namespace DCSoft.CSharpWriter.Controls
                 CheckHandle();
                 System.IO.StringReader reader = new System.IO.StringReader(value);
                 DocumentLoader.LoadXmlFile(reader, this.Document);
-                string txt = this.Document.GetDebugText();
                 this.RefreshDocument();
                 //MessageBox.Show( txt + "\r\n###" + this.Document.GetDebugText());
                 this.Invalidate();
@@ -1443,32 +1441,7 @@ namespace DCSoft.CSharpWriter.Controls
             {
                 this.CreateHandle();
             }
-        }
-
-        /// <summary>
-        /// 单独执行一段外界注入的VB脚本代码
-        /// </summary>
-        /// <param name="scriptText">脚本代码</param>
-        /// <returns>执行结果</returns>
-        public object ExecuteVBScript( string scriptText  )
-        {
-            CheckHandle();
-            object result = null;
-            if (this.Document.Options.BehaviorOptions.EnableScript)
-            {
-                DocumentScriptEngine engine = new DocumentScriptEngine();
-                string functionName = "F" + System.Environment.TickCount;
-                string txt = "Function " + functionName + "\r\n" + scriptText + "\r\n End Function";
-                engine.ScriptText = txt;
-                engine.Document = this.Document;
-                result = engine.Execute(functionName, null, false);
-                engine.Dispose();
-            }
-            return result;
-        }
-
-        
-         
+        }         
 
         internal JumpPrintInfo _JumpPrint = new JumpPrintInfo();
 

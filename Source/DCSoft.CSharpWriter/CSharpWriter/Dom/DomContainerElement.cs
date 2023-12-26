@@ -9,7 +9,6 @@ Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using DCSoft.CSharpWriter.Script;
 using System.Text;
 
 namespace DCSoft.CSharpWriter.Dom
@@ -112,24 +111,6 @@ namespace DCSoft.CSharpWriter.Dom
             }
 		}
 
-        private DomExpressionList _Expressions = null;
-        /// <summary>
-        /// 表达式列表
-        /// </summary>
-        [DefaultValue( null )]
-        [System.Xml.Serialization.XmlArrayItem( "Expression" , typeof( DomExpression ))]
-        public virtual DomExpressionList Expressions
-        {
-            get
-            {
-                return _Expressions; 
-            }
-            set
-            {
-                _Expressions = value; 
-            }
-        }
-        
 
         private XAttributeList _Attributes = new XAttributeList();
         /// <summary>
