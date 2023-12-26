@@ -12,7 +12,6 @@ using System.Xml.Serialization;
 using System.IO;
 using DCSoft.CSharpWriter.Dom;
 using DCSoft.CSharpWriter.Data;
-using DCSoft.HtmlDom;
 
 namespace DCSoft.CSharpWriter
 {
