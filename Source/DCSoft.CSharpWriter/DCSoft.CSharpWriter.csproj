@@ -411,7 +411,6 @@
     <Compile Include="CSharpWriter\Dom\DocumentControler.cs" />
     <Compile Include="CSharpWriter\Dom\DocumentEventArgs.cs" />
     <Compile Include="CSharpWriter\Dom\DocumentInfo.cs" />
-    <Compile Include="CSharpWriter\Dom\DocumentPageDrawer.cs" />
     <Compile Include="CSharpWriter\Dom\DocumentPaintEventHandler.cs" />
     <Compile Include="CSharpWriter\Dom\DocumentViewTransform.cs" />
     <Compile Include="CSharpWriter\Dom\DomAccessFlags.cs" />
@@ -421,14 +420,11 @@
     <Compile Include="CSharpWriter\Dom\FilterValueEventHandler.cs" />
     <Compile Include="CSharpWriter\Dom\HighlightInfo.cs" />
     <Compile Include="CSharpWriter\Dom\HighlightManager.cs" />
-    <Compile Include="CSharpWriter\Dom\IParameterProvider.cs" />
     <Compile Include="CSharpWriter\Dom\LinkClickEventHandler.cs" />
     <Compile Include="CSharpWriter\Dom\MouseCaptureInfo.cs" />
     <Compile Include="CSharpWriter\Dom\PageLineInfo.cs" />
     <Compile Include="CSharpWriter\Dom\ReplaceElementsArgs.cs" />
     <Compile Include="CSharpWriter\Dom\SelectionChangingEventArgs.cs" />
-    <Compile Include="CSharpWriter\Dom\SolidBrushBuffer.cs" />
-    <Compile Include="CSharpWriter\Dom\TextAlignment.cs" />
     <Compile Include="CSharpWriter\Dom\Undo\XTextDocumentUndoList.cs" />
     <Compile Include="CSharpWriter\Dom\Undo\XTextUndoBase.cs" />
     <Compile Include="CSharpWriter\Dom\Undo\XTextUndoModifyArrayItem.cs" />

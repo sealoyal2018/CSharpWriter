@@ -206,10 +206,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             this.myEditControl.Name = "myEditControl";
             this.myEditControl.Size = new System.Drawing.Size(811, 413);
             this.myEditControl.TabIndex = 4;
-            this.myEditControl.DocumentLoad += new System.EventHandler(this.myEditControl_DocumentLoad);
-            this.myEditControl.HoverElementChanged += new System.EventHandler(this.myEditControl_HoverElementChanged);
-            this.myEditControl.DocumentContentChanged += new System.EventHandler(this.myEditControl_DocumentContentChanged);
-            this.myEditControl.SelectionChanged += new System.EventHandler(this.myEditControl_SelectionChanged);
             // 
             // cmEdit
             // 
@@ -263,7 +259,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             this.Name = "frmTextUseCommand";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CSharpWriter winform.net demo";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmTextUseCommand_FormClosing);
             this.Load += new System.EventHandler(this.frmTextUseCommand_Load);
             ((System.ComponentModel.ISupportInitialize)(this.myCommandControler)).EndInit();
             this.cmEdit.ResumeLayout(false);

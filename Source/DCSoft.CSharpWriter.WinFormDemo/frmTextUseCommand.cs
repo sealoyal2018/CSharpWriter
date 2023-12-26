@@ -53,7 +53,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             
             myEditControl.AutoUserLogin = false;
 
-            this.myEditControl_DocumentLoad(null, null);
 
             var dir = Path.Combine(Application.StartupPath, "DemoFile");
             if (Directory.Exists(dir))
@@ -63,34 +62,14 @@ namespace DCSoft.CSharpWriter.WinFormDemo
                 {
                     foreach (var fn in fns)
                     {
-                        var menu = new System.Windows.Forms.ToolStripMenuItem(Path.GetFileName(fn));
-                        menu.Tag = fn;
-                        menu.Click += delegate (object sender2, EventArgs args2)
-                        {
-                            var menuItem = (System.Windows.Forms.ToolStripMenuItem)sender2;
-                            var fn2 = (string)menuItem.Tag;
-                            if (File.Exists(fn2))
-                            {
-                                this.Cursor = Cursors.WaitCursor;
-                                this.myEditControl.LoadDocument(fn2, FileFormat.XML);
-                                this.Cursor = Cursors.Default;
-                            }
-                        };
+                        this.Cursor = Cursors.WaitCursor;
+                        this.myEditControl.LoadDocument(fn, FileFormat.XML);
+                        this.Cursor = Cursors.Default;
                     }
                 }
             }
         }
 
-         
-        /// <summary>
-        /// Handle after load document
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void myEditControl_DocumentLoad(object sender, EventArgs e)
-        {
-           
-        } 
          
         /// <summary>
         /// Demo of server object in document
@@ -162,193 +141,7 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             base.OnClosing(e);
         }
 
-
-        /// <summary>
-        /// Current file name.
-        /// </summary>
-        private string strFileName = null;
          
-
-        /// <summary>
-        /// open special file
-        /// </summary>
-        /// <param name="fileName">file name ,it can be xml,rtf or txt file</param>
-        private void OpenDocument(string fileName)
-        {
-            try
-            {
-                this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-                string name = fileName.Trim().ToLower();
-                FileFormat style = FileFormat.XML;
-                if (name.EndsWith(".xml"))
-                {
-                    style = FileFormat.XML;
-                }
-                else if (name.EndsWith(".txt"))
-                {
-                    style = FileFormat.Text;
-                }
-                this.myEditControl.LoadDocument(fileName, style);
-                this.strFileName = fileName;
-                UpdateFormText();
-            }
-            catch (Exception ext)
-            {
-            }
-            this.Cursor = System.Windows.Forms.Cursors.Default;
-        }
-
-        /// <summary>
-        /// save document
-        /// </summary>
-        /// <param name="name">file name</param>
-        /// <returns></returns>
-        private bool SaveDocument(string name)
-        {
-            if (name == null)
-            {
-                using (System.Windows.Forms.SaveFileDialog dlg = new SaveFileDialog())
-                {
-                    dlg.Filter = "*.xml|*.xml";
-                    dlg.CheckPathExists = true;
-                    if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-                        name = dlg.FileName;
-                    else
-                        return false;
-                }
-                this.Update();
-            }
-
-            FileFormat style = FileFormat.XML;
-
-            try
-            {
-                string name2 = name.Trim().ToLower();
-                    style = FileFormat.XML;
-                if (this.myEditControl.SaveDocument(name, style))
-                {
-                    strFileName = name;
-                }
-                UpdateFormText();
-                return true;
-            }
-            catch (Exception ext)
-            {
-                return false;
-            }
-        }
-
-
-        /// <summary>
-        /// If document modified , show query message
-        /// </summary>
-        /// <returns>If return true , then can go no ; return false , cancel operation</returns>
-        private bool QuerySave()
-        {
-            if (this.myEditControl.Document.Modified)
-            {
-                System.Windows.Forms.DialogResult result = MessageBox.Show(
-                    this,
-                    "File content changed ,save it?",
-                    this.Text,
-                    MessageBoxButtons.YesNoCancel,
-                    MessageBoxIcon.Question);
-                if (result == System.Windows.Forms.DialogResult.Yes)
-                {
-                    if (SaveDocument(strFileName) == false)
-                        return false;
-                }
-                else if (result == System.Windows.Forms.DialogResult.No)
-                    return true;
-                else if (result == System.Windows.Forms.DialogResult.Cancel)
-                    return false;
-            }
-            return true;
-        }
-         
-        /// <summary>
-        /// handle element hover event
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void myEditControl_HoverElementChanged(object sender, EventArgs e)
-        {
-            
-        }
-
-        /// <summary>
-        /// Handle selection changed event in editor control
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void myEditControl_SelectionChanged(object sender, EventArgs e)
-        {
-
-            DomContentLine line = myEditControl.Document.CurrentContentElement.CurrentLine;
-            if (line != null && line.OwnerPage != null)
-            {
-                string txt =
-                   string.Format("Page:{0} Line:{1} Column:{2}",
-                        Convert.ToString(line.OwnerPage.PageIndex),
-                        Convert.ToString(myEditControl.CurrentLineIndexInPage ),
-                        Convert.ToString(myEditControl.CurrentColumnIndex));
-                if (myEditControl.Selection.Length != 0)
-                {
-                    txt = txt + string.Format(
-                        " Selected{0}elements",
-                        Math.Abs(myEditControl.Selection.Length));
-                }
-            }
-            UpdateFormText();
-             
-        }
-
-        private void UpdateFormText()
-        {
-            string text = "DCSoft.CSharpWriter";
-            if (string.IsNullOrEmpty(this.myEditControl.Document.Info.Title) == false)
-            {
-                text = myEditControl.Document.Info.Title + "-" + text;
-            }
-            else if ( string.IsNullOrEmpty( this.myEditControl.Document.FileName ) == false )
-            {
-                text =myEditControl.Document.FileName + " - " + text ;
-            }
-            if (myEditControl.Document.Modified)
-            {
-                text = text + " *";
-            }
-            this.Text = text;
-        }
-
-        private void frmTextUseCommand_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (QuerySave() == false)
-            {
-                e.Cancel = true;
-            }
-        }
-         
-
-        private void mTestInsertImage_Click(object sender, EventArgs e)
-        {
-            System.Drawing.Image img = Image.FromFile(System.IO.Path.Combine(Application.StartupPath, "About.jpg"));
-            myEditControl.ExecuteCommand("InsertImage", false, img); return;
-        }
-
-        private void mTestInsertString_Click(object sender, EventArgs e)
-        {
-            myEditControl.ExecuteCommand("InsertString", false, "abc");
-        }
-
-        private void mTestInsertRTF_Click(object sender, EventArgs e)
-        {
-            myEditControl.ExecuteCommand("InsertRTF", false, @"{\rtf1\ansi\ansicpg936\deff0\deflang1033\deflangfe2052{\fonttbl{\f0\fnil\fcharset134 \'cb\'ce\'cc\'e5;}}
-{\colortbl ;\red255\green0\blue0;}
-{\*\generator Msftedit 5.41.21.2510;}{\info{\horzdoc}{\*\lchars ([\'7b\'a1\'a4\'a1\'ae\'a1\'b0\'a1\'b4\'a1\'b6\'a1\'b8\'a1\'ba\'a1\'be\'a1\'b2\'a1\'bc\'a3\'a8\'a3\'ae\'a3\'db\'a3\'fb\'a1\'ea\'a3\'a4}{\*\fchars !),.:\'3b?]\'7d\'a1\'a7\'a1\'a4\'a1\'a6\'a1\'a5\'a8\'44\'a1\'ac\'a1\'af\'a1\'b1\'a1\'ad\'a1\'c3\'a1\'a2\'a1\'a3\'a1\'a8\'a1\'a9\'a1\'b5\'a1\'b7\'a1\'b9\'a1\'bb\'a1\'bf\'a1\'b3\'a1\'bd\'a3\'a1\'a3\'a2\'a3\'a7\'a3\'a9\'a3\'ac\'a3\'ae\'a3\'ba\'a3\'bb\'a3\'bf\'a3\'dd\'a3\'e0\'a3\'fc\'a3\'fd\'a1\'ab\'a1\'e9}}
-\viewkind4\uc1\pard\sa200\sl276\slmult1\lang2052\f0\fs22 1\cf1 2\cf0 3\par
-}");
-        }
 
         private void mTestInsertXML_Click(object sender, EventArgs e)
         {
@@ -423,50 +216,5 @@ namespace DCSoft.CSharpWriter.WinFormDemo
 </XTextDocument>";
         }
 
-        private void mTestUpdateData_Click(object sender, EventArgs e)
-        { 
-        }
-
-        /// <summary>
-        /// 文档内容发生改变事件
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void myEditControl_DocumentContentChanged(object sender, EventArgs e)
-        {
-            //System.Console.WriteLine("");
-            //System.Diagnostics.Debug.WriteLine(
-            //    System.Environment.TickCount + ":" + myEditControl.DocumentContentVersion);
-            //XTextInputFieldElement field = myEditControl.Document.CurrentField as XTextInputFieldElement;
-
-        }
-         
-        private void mTestInsertCheckBoxList_Click(object sender, EventArgs e)
-        {
-            myEditControl.ExecuteCommand("InsertCheckBoxList", true, null);
-
-            //myEditControl.Document.GetSpecifyElements(typeof(XTextCheckBoxElement));
-        }
-         
-        /// <summary>
-        /// 编辑器中执行命令时的错误处理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void myEditControl_CommandError(object sender, CommandErrorEventArgs args)
-        {
-            MessageBox.Show(
-                this,
-                args.CommandName + "\r\n" + args.Exception.ToString(), 
-                this.Text,
-                MessageBoxButtons.OK,
-                MessageBoxIcon.Exclamation);
-
-        }
-
-        private void mLocalFileSystem_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
