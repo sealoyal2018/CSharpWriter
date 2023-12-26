@@ -25,7 +25,7 @@ namespace DCSoft.CSharpWriter.WinFormDemo
         {
             InitializeComponent();
             myEditControl.ServerObject = new ServerObjectSample(this);
-            myEditControl.DoubleBuffering = false;
+            myEditControl.DoubleBuffering = true;
             myEditControl.AllowDragContent = true;
               
         }
@@ -46,12 +46,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             myEditControl.DocumentOptions.BehaviorOptions.DebugMode = true;
 
             // Without permission control
-            myEditControl.DocumentOptions.SecurityOptions.EnableLogicDelete = false;
-            myEditControl.DocumentOptions.SecurityOptions.EnablePermission = false;
-            myEditControl.DocumentOptions.SecurityOptions.ShowLogicDeletedContent = false;
-            myEditControl.DocumentOptions.SecurityOptions.ShowPermissionMark = false;
-            
-            myEditControl.AutoUserLogin = false;
 
 
             var dir = Path.Combine(Application.StartupPath, "DemoFile");

@@ -122,8 +122,7 @@ namespace DCSoft.CSharpWriter
                 text, 
                 style , 
                 style,
-                this.EnableAddPermissionFlag 
-                && this.Document.Options.SecurityOptions.EnablePermission );
+                this.EnableAddPermissionFlag  );
             Append(list);
             return list;
         }
@@ -151,7 +150,6 @@ namespace DCSoft.CSharpWriter
             if (this.EnableAddPermissionFlag)
             {
                 rs = ( DocumentContentStyle ) rs.Clone();
-                rs.CreatorIndex = this.Document.UserHistories.CurrentIndex;
                 rs.DeleterIndex = -1;
             }
             flag.Style = style;

@@ -982,8 +982,7 @@ namespace DCSoft.CSharpWriter.Dom
                         args.AccessFlags = flags;
                         args.ChangeSelection = false;
                         args.UpdateContent = updateContent;
-                        if (args.DisablePermission == false
-                                && this.OwnerDocument.Options.SecurityOptions.EnablePermission)
+                        if (args.DisablePermission == false)
                         {
                             // 很多时候，本属性是为下拉列表文本输入域调用的，此时输入域前面的文本可能是被
                             // 当前用户输入的，后面的元素已经被逻辑删除了，此时应该应该是执行物理删除，
@@ -1030,8 +1029,7 @@ namespace DCSoft.CSharpWriter.Dom
                             args.AccessFlags = flags;
                             args.ChangeSelection = false;
                             args.UpdateContent = updateContent;
-                            if (args.DisablePermission == false
-                                && this.OwnerDocument.Options.SecurityOptions.EnablePermission)
+                            if (args.DisablePermission == false)
                             {
                                 // 很多时候，本属性是为下拉列表文本输入域调用的，此时输入域前面的文本可能是被
                                 // 当前用户输入的，后面的元素已经被逻辑删除了，此时应该应该是执行物理删除，

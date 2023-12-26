@@ -282,7 +282,7 @@ namespace DCSoft.CSharpWriter.Dom
             get
             {
                 int index = this.Style.CreatorIndex;
-                return this.OwnerDocument.UserHistories.GetPermissionLevel(index);
+                return index;
             }
         }
 
@@ -295,7 +295,7 @@ namespace DCSoft.CSharpWriter.Dom
             get
             {
                 int index = this.Style.DeleterIndex;
-                return this.OwnerDocument.UserHistories.GetPermissionLevel(index);
+                return index;
             }
         }
 

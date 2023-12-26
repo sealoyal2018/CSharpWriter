@@ -12,7 +12,6 @@ using System.Drawing;
 using System.Collections;
 using System.Collections.Generic;
 using DCSoft.CSharpWriter.Controls;
-using DCSoft.CSharpWriter.Security;
 using DCSoft.CSharpWriter.Data;
 
 namespace DCSoft.CSharpWriter.Dom
@@ -788,36 +787,6 @@ namespace DCSoft.CSharpWriter.Dom
             DocumentContentStyle style = element.Style;
             DomDocument document = element.OwnerDocument;
             bool logicDelete = false;
-            if (document.Options.SecurityOptions.EnablePermission
-                && document.Options.SecurityOptions.EnableLogicDelete)
-            {
-                // 判断是否执行逻辑删除
-                if (element.Style.CreatorIndex == document.UserHistories.CurrentIndex)
-                {
-                    // 若要删除的元素的创建者序号等于文档中当前的创建者序号
-                    // 说明元素是当前用户在当前登录期间输入的，此时应该是物理
-                    // 删除而不是逻辑删除。
-                    logicDelete = false;
-                }
-                else
-                {
-                    logicDelete = true;
-                    if (document.Options.SecurityOptions.RealDeleteOwnerContent)
-                    {
-                        // 物理删除曾经是自己输入的内容,用户采用ID进行判断
-                        UserHistoryInfo info1 = document.UserHistories.GetInfo(style.CreatorIndex);
-                        UserHistoryInfo info2 = document.UserHistories.CurrentInfo;
-                        if (info1 != null && info2 != null)
-                        {
-                            if (info1.ID == info2.ID)
-                            {
-                                // 物理删除
-                                logicDelete = false;
-                            }
-                        }
-                    }
-                }
-            }
             return logicDelete;
         }
 
@@ -861,7 +830,6 @@ namespace DCSoft.CSharpWriter.Dom
                 // 逻辑删除
                 DocumentContentStyle style = (DocumentContentStyle)element.Style.Clone();
                 style.DisableDefaultValue = true;
-                style.DeleterIndex = this.OwnerDocument.UserHistories.CurrentIndex;
                 int si = this.OwnerDocument.ContentStyles.GetStyleIndex(style);
                 if (this.OwnerDocument.CanLogUndo)
                 {
@@ -1180,14 +1148,8 @@ namespace DCSoft.CSharpWriter.Dom
                 selectionTypesTable[rootElement.Elements[iCount]] = selectionTypes[iCount];
             }
             
-            // 允许执行逻辑删除
-            bool useLogicDelete = this.OwnerDocument.Options.SecurityOptions.EnablePermission 
-                && this.OwnerDocument.Options.SecurityOptions.EnableLogicDelete;
             // 上一个文档元素使用的用户内部编号。
             int lastCreatorIndex = -1;
-            // 当前用户内部编号。
-            int currentUserIndex = this.OwnerDocument.UserHistories.CurrentIndex ;
-
             for (int iCount = startIndex; 
                 iCount < rootElement.Elements.Count && iCount <= endIndex ;
                 iCount++)
@@ -1204,43 +1166,6 @@ namespace DCSoft.CSharpWriter.Dom
                     if (index >= 0 && startRefreshIndex > index)
                     {
                         startRefreshIndex = index; 
-                    }
-                    if (useLogicDelete)
-                    {
-                        int creatorIndex = lastDeleteElement.FirstContentElement.Style.CreatorIndex;
-                        if (creatorIndex != lastCreatorIndex )
-                        {
-                            //// 元素创建者编号发生了改变
-                            //if (creatorIndex != currentUserIndex && lastCreatorIndex != currentUserIndex)
-                            //{
-                            //    // 当元素的创建者编号等于当前创建者编号则进行物理删除，否则进行逻辑删除。
-                            //    // 当两者的元素创建者编号都不等于当前创建者编号，都是进行逻辑删除
-                            //    // 因此无需后续判断
-                            //    continue;
-                            //}
-
-                            DomElement preElement = rootElement.Elements.GetPreElement(lastDeleteElement);
-                            int deleted = DeleteElements(
-                                rootElement, 
-                                firstDeleteElement,
-                                preElement , 
-                                true ,
-                                changedArgs );
-                            result = result + Math.Abs( deleted );
-                            if ( deleted > 0 )
-                            {
-                                endIndex = endIndex - deleted;
-                                iCount = iCount - deleted;
-                            }
-                            lastDeleteElement = rootElement.Elements[iCount];
-                            firstDeleteElement = lastDeleteElement;
-                            lastCreatorIndex = creatorIndex;
-
-                                                        //if (endNextElement != null)
-                            //{
-                            //    iCount = rootElement.Elements.IndexOf(endNextElement) - 1 ;
-                            //}
-                        }
                     }
                 }
                 else
@@ -1379,7 +1304,6 @@ namespace DCSoft.CSharpWriter.Dom
                         DomElement element = container.Elements[iCount];
                         DocumentContentStyle style = ( DocumentContentStyle ) element.Style.Clone();
                         style.DisableDefaultValue = true;
-                        style.DeleterIndex = this.OwnerDocument.UserHistories.CurrentIndex;
                         int si = this.OwnerDocument.ContentStyles.GetStyleIndex(style);
                         if (this.OwnerDocument.CanLogUndo)
                         {

@@ -1681,7 +1681,7 @@ namespace DCSoft.CSharpWriter.Dom
             //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.HighSpeed ;
             DomDocumentContentElement dce = this.DocumentContentElement;
             //XTextParagraphFlagElement lastPE = null;
-            bool showPermissionMark = this.OwnerDocument.Options.SecurityOptions.ShowPermissionMark;
+            bool showPermissionMark = false;
             foreach (DomContentLine line in this.PrivateLines)
             {
                 if (line.Count == 0)

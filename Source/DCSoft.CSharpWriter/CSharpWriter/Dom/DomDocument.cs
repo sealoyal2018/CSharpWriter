@@ -23,7 +23,6 @@ using System.Drawing;
 using DCSoft.CSharpWriter.Commands;
 using System.IO;
 using System.Text;
-using DCSoft.CSharpWriter.Security;
 
 
 namespace DCSoft.CSharpWriter.Dom
@@ -1108,10 +1107,6 @@ namespace DCSoft.CSharpWriter.Dom
                 {
                     this._ContentStyles =( DocumentContentStyleContainer ) sourceDocument._ContentStyles.Clone();
                 }
-                if (sourceDocument._UserHistories != null)
-                {
-                    this._UserHistories = sourceDocument._UserHistories.Clone();
-                }
                 if (sourceDocument._Options != null)
                 {
                     this._Options = sourceDocument._Options.Clone();
@@ -1243,25 +1238,12 @@ namespace DCSoft.CSharpWriter.Dom
         }
 
         /// <summary>
-        /// 更新用户历史记录的时间
-        /// </summary>
-        public void UpdateUserInfoSaveTime()
-        {
-            if (this.UserHistories.Count > 0)
-            {
-                UserHistoryInfo info = this.UserHistories[this.UserHistories.Count - 1];
-                info.SavedTime = DateTime.Now;
-            }
-        }
-
-        /// <summary>
         /// 以指定的格式将文档保存在文件中
         /// </summary>
         /// <param name="fileName">文件名</param>
         /// <param name="format">文档格式</param>
         public virtual void Save(string fileName, FileFormat format)
         {
-            UpdateUserInfoSaveTime();
             if (format == FileFormat.Text)
             {
                 DocumentSaver.SaveTextFile(fileName, this);
@@ -1397,10 +1379,6 @@ namespace DCSoft.CSharpWriter.Dom
             {
                 this.UndoList.Clear();
             }
-            if (this.UserHistories != null)
-            {
-                this.UserHistories.Clear();
-            }
             // 清空脚本
 
             this.ContentStyles.Clear();
@@ -1451,12 +1429,6 @@ namespace DCSoft.CSharpWriter.Dom
                     style.CreatorIndex = -1;
                     result = true;
                 }
-            }//for
-            if (this.UserHistories.Count > 0)
-            {
-                // 清除用户登录记录
-                this.UserHistories.Clear();
-                result = true;
             }
             return result;
         }
@@ -1586,7 +1558,7 @@ namespace DCSoft.CSharpWriter.Dom
                 strText, 
                 paragraphStyle, 
                 textStyle, 
-                this.Options.SecurityOptions.EnablePermission);
+                false);
         }
 
         /// <summary>
@@ -1613,22 +1585,18 @@ namespace DCSoft.CSharpWriter.Dom
                 if (textStyle != null)
                 {
                     textStyle = (DocumentContentStyle)textStyle.Clone();
-                    textStyle.CreatorIndex = this.UserHistories.CurrentIndex;
                 }
                 else
                 {
                     textStyle = new DocumentContentStyle();
-                    textStyle.CreatorIndex = this.UserHistories.CurrentIndex;
                 }
                 if (paragraphStyle != null)
                 {
                     paragraphStyle = (DocumentContentStyle)paragraphStyle.Clone();
-                    paragraphStyle.CreatorIndex = this.UserHistories.CurrentIndex;
                 }
                 else
                 {
                     paragraphStyle = new DocumentContentStyle();
-                    paragraphStyle.CreatorIndex = this.UserHistories.CurrentIndex;
                 }
             }
             else
@@ -1820,14 +1788,6 @@ namespace DCSoft.CSharpWriter.Dom
                 DomElement element = elements[ iCount ] ;
                 DocumentContentStyle style = (DocumentContentStyle)element.Style.Clone();
                 style.DisableDefaultValue = false;
-                if (addCreatorIndex)
-                {
-                    style.CreatorIndex = this.UserHistories.CurrentIndex;
-                }
-                else
-                {
-                    style.DeleterIndex = this.UserHistories.CurrentIndex;
-                }
                 int si = this.ContentStyles.GetStyleIndex(style);
                 if ( logUndo && this.CanLogUndo)
                 {
@@ -2027,21 +1987,6 @@ namespace DCSoft.CSharpWriter.Dom
             bool logicDelete = false;
             if ( args.DisablePermission )
             {
-                // 没有临时禁止掉授权控制
-                if (this.Options.SecurityOptions.EnablePermission
-                    && this.Options.SecurityOptions.EnableLogicDelete)
-                {
-                    // 判断是否进行逻辑删除
-                    for (int iCount = 0; iCount < args.DeleteLength; iCount++)
-                    {
-                        DomElement element = elements[args.StartIndex + iCount];
-                        if (element.Style.CreatorIndex != this.UserHistories.CurrentIndex)
-                        {
-                            logicDelete = true;
-                            break;
-                        }
-                    }
-                }
             }
             int result = 0;
             if (args.DeleteLength > 0)
@@ -2084,11 +2029,6 @@ namespace DCSoft.CSharpWriter.Dom
                 {
                     element.Parent = args.Container;
                     element.OwnerDocument = this;
-                }
-                if (this.Options.SecurityOptions.EnablePermission)
-                {
-                    // 标记授权信息
-                    MarkPermission(args.NewElements, 0, args.NewElements.Count, true, false);
                 }
                 result += args.NewElements.Count;
                 // 更新容器元素的内容版本号
@@ -2636,28 +2576,6 @@ namespace DCSoft.CSharpWriter.Dom
             myChar.OwnerDocument = this;
             myChar.Parent = this;
             return myChar;
-        }
-
-        private UserHistoryInfoList _UserHistories = new UserHistoryInfoList();
-        /// <summary>
-        /// 用户历史记录列表
-        /// </summary>
-        [System.ComponentModel.DefaultValue( null )]
-        [System.Xml.Serialization.XmlArrayItem("History" , typeof( UserHistoryInfo ))]
-        public UserHistoryInfoList UserHistories
-        {
-            get
-            {
-                if (_UserHistories == null)
-                {
-                    _UserHistories = new UserHistoryInfoList();
-                }
-                return _UserHistories; 
-            }
-            set
-            {
-                _UserHistories = value; 
-            }
         }
 
         /// <summary>
@@ -3726,14 +3644,6 @@ namespace DCSoft.CSharpWriter.Dom
         /// <returns>是否可见</returns>
         public virtual bool IsVisible(DomElement element)
         {
-            if (this.Options.SecurityOptions.ShowLogicDeletedContent == false)
-            {
-                if (element.Style.DeleterIndex >= 0)
-                {
-                    // 被逻辑删除了，因此不可见。
-                    return false;
-                }
-            }
             return true;
         }
 

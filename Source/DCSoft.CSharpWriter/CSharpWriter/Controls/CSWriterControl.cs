@@ -20,7 +20,6 @@ using System.ComponentModel;
 using System.Collections.Generic;
 using DCSoft.CSharpWriter.Undo;
 using System.Text;
-using DCSoft.CSharpWriter.Security;
 
 namespace DCSoft.CSharpWriter.Controls
 {
@@ -1047,94 +1046,6 @@ namespace DCSoft.CSharpWriter.Controls
             base.OnLoad(e);
         }
 
-        private bool _AutoUserLogin = false;
-        /// <summary>
-        /// 每打开文档时自动进行用户登录
-        /// </summary>
-        [DefaultValue( false )]
-        [Category("Behavior")]
-        public bool AutoUserLogin
-        {
-            get
-            {
-                return _AutoUserLogin; 
-            }
-            set
-            {
-                _AutoUserLogin = value; 
-            }
-        }
-
-        private UserLoginInfo _AutoUserLoginInfo = null;
-        /// <summary>
-        /// 执行自动登录时使用的用户登录信息
-        /// </summary>
-        [Browsable( false )]
-        [DesignerSerializationVisibility( DesignerSerializationVisibility.Hidden )]
-        public UserLoginInfo AutoUserLoginInfo
-        {
-            get
-            {
-                return _AutoUserLoginInfo; 
-            }
-            set
-            {
-                _AutoUserLoginInfo = value; 
-            }
-        }
-
-        /// <summary>
-        /// 用户登录
-        /// </summary>
-        /// <param name="userID">用户编号</param>
-        /// <param name="userName">用户名</param>
-        /// <param name="permissionLevel">用户等级</param>
-        /// <returns>操作是否成功</returns>
-        public bool UserLogin(string userID, string userName, int permissionLevel)
-        {
-            UserLoginInfo info = new UserLoginInfo();
-            info.ID = userID;
-            info.Name = userName;
-            info.PermissionLevel = permissionLevel;
-            return UserLogin(info, true);
-        }
-
-        /// <summary>
-        /// 执行用户登录操作
-        /// </summary>
-        /// <param name="loginInfo">登录信息</param>
-        /// <param name="updateUI">是否更新用户界面</param>
-        /// <returns>操作是否成功</returns>
-        public bool UserLogin(UserLoginInfo loginInfo , bool updateUI )
-        {
-            if (loginInfo == null)
-            {
-                throw new ArgumentNullException("loginInfo");
-            }
-             
-            if (this.Document.UserHistories.CurrentInfo != null)
-            {
-                this.Document.UserHistories.CurrentInfo.SavedTime = DateTime.Now;
-            }
-
-            this.Document.UserHistories.Add(new UserHistoryInfo( loginInfo ));
-            // 登录成功后会删除撤销信息
-            if (this.Document.UndoList != null)
-            {
-                this.Document.UndoList.EndLog();
-                this.Document.UndoList.Clear();
-            }
-            if (updateUI)
-            {
-                this.RefreshDocument();
-            }
-            else
-            {
-                this.Document.OnSelectionChanged();
-            }
-            return true;
-        }
-
         /// <summary>
         /// 从指定的文件地址中加载文档
         /// </summary>
@@ -1210,25 +1121,12 @@ namespace DCSoft.CSharpWriter.Controls
         public virtual void OnDocumentLoad(EventArgs args)
         {
             AddLastEventNames("DocumentLoad");
-
-            if (this.AutoUserLogin && this.AutoUserLoginInfo != null )
-            {
-                // 执行用户自动登录
-                this.UserLogin(this.AutoUserLoginInfo, true);
-            }
             if (DocumentLoad != null)
             {
                 DocumentLoad(this, args);
             }
         }
 
-        /// <summary>
-        /// 更新用户历史记录的时间
-        /// </summary>
-        public void UpdateUserInfoSaveTime()
-        {
-            this.Document.UpdateUserInfoSaveTime();
-        }
 
         /// <summary>
         /// 保存文档到指定名称的文件中
@@ -1509,42 +1407,6 @@ namespace DCSoft.CSharpWriter.Controls
             //        XTextCheckBoxElement chk = ( 
             //    }
             //}
-            if ( this.Document.Options.SecurityOptions.ShowPermissionTip)
-            {
-                if (newHoverElement != null)
-                {
-                    // 显示授权相关的提示信息
-                    StringBuilder str = new StringBuilder();
-                    UserHistoryInfo info2 = newHoverElement.OwnerDocument.UserHistories.GetInfo(newHoverElement.Style.CreatorIndex);
-                    if (info2 != null)
-                    {
-                        str.Append(string.Format(
-                            WriterStrings.CreatorTip_Name_Time,
-                            info2.Name,
-                            info2.SaveTimeString));
-                    }
-                    info2 = newHoverElement.OwnerDocument.UserHistories.GetInfo(newHoverElement.Style.DeleterIndex);
-                    if (info2 != null)
-                    {
-                        if (str.Length > 0)
-                        {
-                            str.Append(Environment.NewLine);
-                        }
-                        str.Append(string.Format(
-                            WriterStrings.DeleterTip_Name_Time,
-                            info2.Name,
-                            info2.SaveTimeString));
-                    }
-                    if (str.Length > 0)
-                    {
-                        this.ToolTips.Add(
-                            newHoverElement,
-                            str.ToString(),
-                            ToolTipStyle.ToolTip, 
-                            ToolTipLevel.Normal ).Disposable = true ;
-                    }
-                }
-            }
             this.UpdateToolTip(true);
             HighlightInfo info = this.Document.HighlightManager[oldHoverElement];
             if (info != null && info.ActiveStyle == HighlightActiveStyle.Hover)

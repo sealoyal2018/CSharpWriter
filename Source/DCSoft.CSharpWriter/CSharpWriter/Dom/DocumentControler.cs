@@ -1424,7 +1424,6 @@ namespace DCSoft.CSharpWriter.Dom
                         if (modify)
                         {
                             // 修改了段落设置
-                            style.CreatorIndex = this.Document.UserHistories.CurrentIndex;
                             int styleIndex = this.Document.ContentStyles.GetStyleIndex(style);
                             if (this.Document.CanLogUndo)
                             {
@@ -1584,31 +1583,6 @@ namespace DCSoft.CSharpWriter.Dom
             
             if (HasFlag(flags, DomAccessFlags.CheckPermission))
             {
-                // 检查授权控制
-                if (this.IsAdministrator == false
-                    && this.Document.Options.SecurityOptions.EnablePermission)
-                {
-                    // 执行权限控制
-                    if (this.Document.UserHistories.CurrentPermissionLevel < element.CreatorPermessionLevel)
-                    {
-                        // 权限不够，不能修改。
-                        return false;
-                    }
-                    if (element.Style.DeleterIndex >= 0)
-                    {
-                        // 元素已经被逻辑删除了,无法接着修改样式了。
-                        return false;
-                    }
-                    //if ((flags & DomAccessFlags.LogicDelete) == DomAccessFlags.LogicDelete)
-                    //{
-                    //    // 执行逻辑删除
-                    //    if (element.Style.DeleterIndex >= 0)
-                    //    {
-                    //        // 元素已经被逻辑删除了，无法接着删除。
-                    //        return false;
-                    //    }
-                    //}
-                }
             }
 
             DomElement parent = element ;
@@ -1722,27 +1696,6 @@ namespace DCSoft.CSharpWriter.Dom
                     {
                         return false;
                     }
-                }
-            }
-            //if (element.IsLogicDeleted)
-            //{
-            //    // 元素已经被逻辑删除了，无法再次删除
-            //    return false;
-            //}
-            if ( this.IsAdministrator == false
-                && this.Document.Options.SecurityOptions.EnablePermission)
-            {
-                // 执行权限控制
-                if (this.Document.UserHistories.CurrentPermissionLevel < element.CreatorPermessionLevel)
-                {
-                    // 权限不够，不能删除。
-                    return false;
-                }
-                if (this.Document.Options.SecurityOptions.EnableLogicDelete
-                    && element.Style.DeleterIndex >= 0)
-                {
-                    // 文档允许逻辑删除而且元素已经给逻辑删除了，因此不能再次被逻辑删除。
-                    return false;
                 }
             }
              
@@ -2308,64 +2261,5 @@ namespace DCSoft.CSharpWriter.Dom
             get { return _CanModifyParagraphs; }
             set { _CanModifyParagraphs = value; }
         }
-    }
-
-    /// <summary>
-    /// 内容状态
-    /// </summary>
-    public enum ContentStates
-    {
-        /// <summary>
-        /// 只读
-        /// </summary>
-        Readonly = 0,
-        /// <summary>
-        /// 可插入
-        /// </summary>
-        Insertable = 1,
-        /// <summary>
-        /// 可删除
-        /// </summary>
-        Deleteable = 2,
-        /// <summary>
-        /// 可插入可删除
-        /// </summary>
-        InsertDeleteable = 3
-    }
-
-    /// <summary>
-    /// 支持的数据格式
-    /// </summary>
-    [Flags]
-    public enum DataFormatStyle
-    {
-        /// <summary>
-        /// XML格式
-        /// </summary>
-        XML = 1,
-        /// <summary>
-        /// 二进制格式
-        /// </summary>
-        Binary = 2,
-        /// <summary>
-        /// 加密的二进制格式
-        /// </summary>
-        EncryptBianry = 4 ,
-        /// <summary>
-        /// HTML格式
-        /// </summary>
-        Html = 8 ,
-        /// <summary>
-        /// RTF格式
-        /// </summary>
-        RTF = 16,
-        /// <summary>
-        /// 纯文本格式
-        /// </summary>
-        Text = 32 ,
-        /// <summary>
-        /// 所有的格式
-        /// </summary>
-        All = 0xffffff
     }
 }

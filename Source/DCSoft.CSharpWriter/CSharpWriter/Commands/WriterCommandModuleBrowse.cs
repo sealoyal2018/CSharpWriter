@@ -654,26 +654,12 @@ namespace DCSoft.CSharpWriter.Commands
                 else
                 {
                     args.Enabled = true;
-                    DCSoft.CSharpWriter.Security.DocumentSecurityOptions opt = args.Document.Options.SecurityOptions;
-                    args.Checked = opt.ShowLogicDeletedContent == true 
-                        && opt.ShowPermissionMark == true 
-                        && opt.ShowPermissionTip == true ;
+                    args.Checked = false ;
                     
                 }
             }
             else if (args.Mode == WriterCommandEventMode.Invoke)
             {
-                DCSoft.CSharpWriter.Security.DocumentSecurityOptions opt = args.Document.Options.SecurityOptions;
-                opt.ShowLogicDeletedContent = true ;
-                opt.ShowPermissionMark = true;
-                opt.ShowPermissionTip = true;
-                if (args.EditorControl != null)
-                {
-                    opt = args.EditorControl.DocumentOptions.SecurityOptions;
-                    opt.ShowLogicDeletedContent = true;
-                    opt.ShowPermissionMark = true;
-                    opt.ShowPermissionTip = true;
-                }
                 args.EditorControl.RefreshDocument();
                 args.RefreshLevel = UIStateRefreshLevel.All;
             }
@@ -696,25 +682,11 @@ namespace DCSoft.CSharpWriter.Commands
                 else
                 {
                     args.Enabled = true;
-                    DCSoft.CSharpWriter.Security.DocumentSecurityOptions opt = args.Document.Options.SecurityOptions ;
-                    args.Checked = opt.ShowLogicDeletedContent == false
-                        && opt.ShowPermissionMark == false 
-                        && opt.ShowPermissionTip == false ;
+                    args.Checked = false ;
                 }
             }
             else if (args.Mode == WriterCommandEventMode.Invoke)
             {
-                DCSoft.CSharpWriter.Security.DocumentSecurityOptions opt = args.Document.Options.SecurityOptions;
-                opt.ShowLogicDeletedContent = false;
-                opt.ShowPermissionMark = false;
-                opt.ShowPermissionTip = false;
-                if (args.EditorControl != null)
-                {
-                    opt = args.EditorControl.DocumentOptions.SecurityOptions;
-                    opt.ShowLogicDeletedContent = false ;
-                    opt.ShowPermissionMark = false ;
-                    opt.ShowPermissionTip = false ;
-                }
                 args.EditorControl.RefreshDocument();
                 args.RefreshLevel = UIStateRefreshLevel.All;
             }

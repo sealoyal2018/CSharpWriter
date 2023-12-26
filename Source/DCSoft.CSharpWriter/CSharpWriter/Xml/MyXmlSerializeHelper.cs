@@ -13,7 +13,6 @@ using DCSoft.CSharpWriter.Dom ;
 using System.Xml.Serialization;
 
 using System.Xml ;
-using DCSoft.CSharpWriter.Security;
 using System.Drawing;
 
 namespace DCSoft.CSharpWriter.Xml

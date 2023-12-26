@@ -11,7 +11,6 @@ using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using DCSoft.CSharpWriter.Security;
 using System.Configuration;
 using System.Reflection;
 
@@ -117,27 +116,6 @@ namespace DCSoft.CSharpWriter
                 }
             }
         }
-
-        private DocumentSecurityOptions _SecurityOptions = new DocumentSecurityOptions();
-        /// <summary>
-        /// 安全和权限设置信息对象
-        /// </summary>
-        public DocumentSecurityOptions SecurityOptions
-        {
-            get
-            {
-                if (_SecurityOptions == null)
-                {
-                    _SecurityOptions = new DocumentSecurityOptions();
-                }
-                return _SecurityOptions; 
-            }
-            set
-            {
-                _SecurityOptions = value; 
-            }
-        }
-
         private DocumentViewOptions _ViewOptions = new DocumentViewOptions();
         /// <summary>
         /// 视图选项
@@ -218,10 +196,6 @@ namespace DCSoft.CSharpWriter
             if (this._BehaviorOptions != null)
             {
                 opt._BehaviorOptions = this._BehaviorOptions.Clone();
-            }
-            if (this._SecurityOptions != null)
-            {
-                opt._SecurityOptions = this._SecurityOptions.Clone();
             }
             return opt;
         }

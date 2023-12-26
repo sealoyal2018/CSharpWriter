@@ -468,10 +468,6 @@
     <Compile Include="CSharpWriter\EnableState.cs" />
     <Compile Include="CSharpWriter\FileFormat.cs" />
     <Compile Include="CSharpWriter\MoveUnit.cs" />
-    <Compile Include="CSharpWriter\Security\DocumentSecurityOptions.cs" />
-    <Compile Include="CSharpWriter\Security\UserHistoryInfo.cs" />
-    <Compile Include="CSharpWriter\Security\UserHistoryInfoList.cs" />
-    <Compile Include="CSharpWriter\Security\UserLoginInfo.cs" />
     <Compile Include="CSharpWriter\Undo\IUndoable.cs" />
     <Compile Include="CSharpWriter\Undo\XUndoEventArgs.cs" />
     <Compile Include="CSharpWriter\Undo\XUndoGroup.cs" />

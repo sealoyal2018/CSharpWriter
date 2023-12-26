@@ -479,18 +479,9 @@ namespace DCSoft.CSharpWriter.Dom
             DomDocument document = this._DocumentContent.OwnerDocument;
             Dictionary<DomElement, int> styleIndexs
                 = new Dictionary<DomElement, int>();
-            if (this.Document.Options.SecurityOptions.EnablePermission)
-            {
-                newStyle.DisableDefaultValue = true;
-                newStyle.CreatorIndex = this.Document.UserHistories.CurrentIndex;
-                newStyle.DeleterIndex = -1;
-            }
-            else
-            {
-                newStyle.DisableDefaultValue = true;
+            newStyle.DisableDefaultValue = true;
                 newStyle.CreatorIndex = -1;
                 newStyle.DeleterIndex = -1;
-            }
             foreach (DomParagraphFlagElement p in this.ParagraphsEOFs)
             {
                 if (document.DocumentControler.CanModify(p))
@@ -552,20 +543,10 @@ namespace DCSoft.CSharpWriter.Dom
             {
                 throw new ArgumentNullException("elements");
             }
-            if (document.Options.SecurityOptions.EnablePermission)
-            {
-                // 运行授权控制，向样式信息添加用户信息
-                newStyle.DisableDefaultValue = false;
-                newStyle.CreatorIndex = document.UserHistories.CurrentIndex;
-                newStyle.DeleterIndex = -1;
-            }
-            else
-            {
                 // 去除授权控制相关信息
                 newStyle.DisableDefaultValue = false;
                 newStyle.CreatorIndex = -1;
                 newStyle.DeleterIndex = -1;
-            }
             Dictionary<DomElement, int> newStyleIndexs
                 = new Dictionary<DomElement, int>();
             DomElementList parents = new DomElementList();
@@ -705,7 +686,6 @@ namespace DCSoft.CSharpWriter.Dom
                 style.CreatorIndex = -1;
                 style.DeleterIndex = -1;
             }
-            document.UserHistories.Clear();
 
             // 删除没有引用的样式
             document.DeleteUselessStyle();

@@ -9,26 +9,26 @@ Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 using System;
 using DCSoft.WinForms;
 using DCSoft.Drawing;
-using DCSoft.CSharpWriter.Dom.Undo ;
+using DCSoft.CSharpWriter.Dom.Undo;
 using DCSoft.WinForms.Native;
 using System.Drawing;
 
 namespace DCSoft.CSharpWriter.Dom
 {
-	/// <summary>
-	/// 嵌入在文档中的对象基础类型
-	/// </summary>
+    /// <summary>
+    /// 嵌入在文档中的对象基础类型
+    /// </summary>
     [Serializable]
-	public class DomObjectElement : DomElement
-	{
-        public static int DragBoxSize = 20 ;
+    public class DomObjectElement : DomElement
+    {
+        public static int DragBoxSize = 20;
 
-		/// <summary>
-		/// 初始化对象
-		/// </summary>
-		public DomObjectElement()
-		{
-		}
+        /// <summary>
+        /// 初始化对象
+        /// </summary>
+        public DomObjectElement()
+        {
+        }
 
         /// <summary>
         /// 预览内容用的图片，用于快速在用户界面上绘制文档内容，打印的时候则尽量不用
@@ -41,79 +41,79 @@ namespace DCSoft.CSharpWriter.Dom
             }
         }
 
-		/// <summary>
-		/// 对象宽度和高度的比例,若大于等于0.1则该设置有效，否则无效
-		/// </summary>
-		private double dblWidthHeightRate = 0 ;
+        /// <summary>
+        /// 对象宽度和高度的比例,若大于等于0.1则该设置有效，否则无效
+        /// </summary>
+        private double dblWidthHeightRate = 0;
 
-		/// <summary>
-		/// 对象宽度高度比,若大于等于0.1则该设置有效，否则无效
-		/// </summary>
-        [System.ComponentModel.Browsable( false )]
+        /// <summary>
+        /// 对象宽度高度比,若大于等于0.1则该设置有效，否则无效
+        /// </summary>
+        [System.ComponentModel.Browsable(false)]
         [System.Xml.Serialization.XmlIgnore()]
-		public virtual double WidthHeightRate
-		{
-			get
+        public virtual double WidthHeightRate
+        {
+            get
             {
-                return dblWidthHeightRate ;
+                return dblWidthHeightRate;
             }
-			set
+            set
             {
-                dblWidthHeightRate = value ;
+                dblWidthHeightRate = value;
             }
-		}
+        }
 
-		private bool bolCanResize = true ;
-		/// <summary>
-		/// 用户是否可以改变对象大小
-		/// </summary>
+        private bool bolCanResize = true;
+        /// <summary>
+        /// 用户是否可以改变对象大小
+        /// </summary>
         [System.ComponentModel.Browsable(false)]
         [System.Xml.Serialization.XmlIgnore()]
         public virtual bool CanResize
-		{
-			get
+        {
+            get
             {
-                return bolCanResize ;
+                return bolCanResize;
             }
-			set
+            set
             {
                 bolCanResize = value;
             }
-		}
+        }
 
-		/// <summary>
-		/// 对象名称
-		/// </summary>
-		private string _Name = null;
-		/// <summary>
-		/// 对象名称
-		/// </summary>
-		public string Name
-		{
-			get
+        /// <summary>
+        /// 对象名称
+        /// </summary>
+        private string _Name = null;
+        /// <summary>
+        /// 对象名称
+        /// </summary>
+        public string Name
+        {
+            get
             {
-                return _Name ;
+                return _Name;
             }
-			set
+            set
             {
                 _Name = value;
             }
-		}
+        }
 
         private bool _Enabled = true;
         /// <summary>
         /// 对象是否可用,可以接受鼠标键盘事件
         /// </summary>
-        [System.ComponentModel.DefaultValue( true )]
+        [System.ComponentModel.DefaultValue(true)]
         public bool Enabled
         {
             get
             {
-                return _Enabled; 
+                return _Enabled;
             }
             set
             {
-                _Enabled = value; 
+                _Enabled = value;
             }
         }
 
@@ -121,56 +121,45 @@ namespace DCSoft.CSharpWriter.Dom
         /// <summary>
         /// 附加数据
         /// </summary>
-        [System.ComponentModel.DefaultValue( null )]
+        [System.ComponentModel.DefaultValue(null)]
         public string Tag
         {
             get
             {
-                return _Tag; 
+                return _Tag;
             }
             set
             {
-                _Tag = value; 
+                _Tag = value;
             }
         }
 
-		/// <summary>
-		/// 创建一个拖拽矩形对象
-		/// </summary>
-		/// <returns>新的拖拽矩形对象</returns>
-		public virtual DragRectangle CreateDragRectangle()
-		{
-			DragRectangle.DragRectSize = DragBoxSize ;
-			DragRectangle rect = new DragRectangle(
-				new System.Drawing.Rectangle( 
-				(int)0 ,
+        /// <summary>
+        /// 创建一个拖拽矩形对象
+        /// </summary>
+        /// <returns>新的拖拽矩形对象</returns>
+        public virtual DragRectangle CreateDragRectangle()
+        {
+            DragRectangle.DragRectSize = DragBoxSize;
+            DragRectangle rect = new DragRectangle(
+                new System.Drawing.Rectangle(
+                (int)0,
                 (int)0,
                 (int)this.Width,
                 (int)this.Height),
-				true );
-			rect.CanMove = true ;
+                true);
+            rect.CanMove = true;
             rect.LineDashStyle = System.Drawing.Drawing2D.DashStyle.Solid;
-			rect.CanResize = this.CanResize && this.OwnerDocument.DocumentControler.CanModify( 
-                this ,
-                DomAccessFlags.Normal ) ;
-			rect.Focus = true ;// myOwnerDocument.Content.CurrentElement == this && myOwnerDocument.Content.SelectionLength == 1 ;
+            rect.CanResize = this.CanResize && this.OwnerDocument.DocumentControler.CanModify(
+                this,
+                DomAccessFlags.Normal);
+            rect.Focus = true;// myOwnerDocument.Content.CurrentElement == this && myOwnerDocument.Content.SelectionLength == 1 ;
             if (rect.CanResize)
             {
-                if (this.OwnerDocument.Options.SecurityOptions.EnablePermission)
-                {
-                    // 进行权限判断用户能否改变元素大小
-                    if (this.Style.DeleterIndex >= 0)
-                    {
-                        rect.CanResize = false;
-                    }
-                    else if (this.CreatorPermessionLevel > this.OwnerDocument.UserHistories.CurrentPermissionLevel)
-                    {
-                        rect.CanResize = false;
-                    }
-                }
+                rect.CanResize = true;
             }
-			return rect ;
-		}
+            return rect;
+        }
 
         //public override void RefreshView(DocumentPaintEventArgs  args)
         //{
@@ -193,7 +182,7 @@ namespace DCSoft.CSharpWriter.Dom
             this.DrawContent(args);
             if (args.RenderStyle == DocumentRenderStyle.Paint && args.ActiveMode)
             {
-                if (this.ShowDragRect && this.Enabled )
+                if (this.ShowDragRect && this.Enabled)
                 {
                     DragRectangle dr = this.CreateDragRectangle();
                     dr.Bounds = new Rectangle(
@@ -204,26 +193,26 @@ namespace DCSoft.CSharpWriter.Dom
                     dr.RefreshView(args.Graphics);
                 }
             }
-            System.Drawing.RectangleF bounds = this.AbsBounds ;
+            System.Drawing.RectangleF bounds = this.AbsBounds;
             bounds.Width = bounds.Width - 1;
             bounds.Height = bounds.Height - 1;
             args.Render.RenderBorder(this, args, bounds);
         }
 
-		/// <summary>
-		/// 进行控制点测试
-		/// </summary>
-		/// <param name="x">测试点X坐标</param>
-		/// <param name="y">测试点Y坐标</param>
-		/// <returns>测试点所在控制点编号</returns>
-		protected virtual DragPointStyle GetDragHit( int x , int y )
-		{
-			DragRectangle dr = this.CreateDragRectangle(); 
-			if( dr == null )
-				return DragPointStyle.None ;
-			else
-				return dr.DragHit( x , y );
-		}
+        /// <summary>
+        /// 进行控制点测试
+        /// </summary>
+        /// <param name="x">测试点X坐标</param>
+        /// <param name="y">测试点Y坐标</param>
+        /// <returns>测试点所在控制点编号</returns>
+        protected virtual DragPointStyle GetDragHit(int x, int y)
+        {
+            DragRectangle dr = this.CreateDragRectangle();
+            if (dr == null)
+                return DragPointStyle.None;
+            else
+                return dr.DragHit(x, y);
+        }
 
         /// <summary>
         /// 处理文档用户界面事件
@@ -231,7 +220,7 @@ namespace DCSoft.CSharpWriter.Dom
         /// <param name="args">事件参数</param>
         public override void HandleDocumentEvent(DocumentEventArgs args)
         {
-            if (args.Style == DocumentEventStyles.MouseDown )
+            if (args.Style == DocumentEventStyles.MouseDown)
             {
                 if (this.Enabled)
                 {
@@ -286,66 +275,66 @@ namespace DCSoft.CSharpWriter.Dom
                 base.HandleDocumentEvent(args);
             }
         }
-         
-		/// <summary>
-		/// 判断能否使用鼠标拖拽该对象
-		/// </summary>
-        [System.ComponentModel.Browsable( false )]
-		public bool ShowDragRect
-		{
-			get
-			{
+
+        /// <summary>
+        /// 判断能否使用鼠标拖拽该对象
+        /// </summary>
+        [System.ComponentModel.Browsable(false)]
+        public bool ShowDragRect
+        {
+            get
+            {
                 if (this.CanResize == false)
                 {
                     return false;
                 }
                 DomDocumentContentElement dce = this.DocumentContentElement;
-                return dce.IsSelected( this ) && dce.Selection.AbsLength == 1 ;
-			}
-		}
+                return dce.IsSelected(this) && dce.Selection.AbsLength == 1;
+            }
+        }
 
-		private bool DragBounds( DragPointStyle hit )
-		{
-			MouseCapturer cap = new MouseCapturer( this.OwnerDocument.EditorControl );
-			cap.Tag = hit ;
-			cap.ReversibleShape = ReversibleShapeStyle.Custom ;
-			cap.Draw +=new CaptureMouseMoveEventHandler(cap_Draw);
+        private bool DragBounds(DragPointStyle hit)
+        {
+            MouseCapturer cap = new MouseCapturer(this.OwnerDocument.EditorControl);
+            cap.Tag = hit;
+            cap.ReversibleShape = ReversibleShapeStyle.Custom;
+            cap.Draw += new CaptureMouseMoveEventHandler(cap_Draw);
             DomDocumentContentElement ce = this.DocumentContentElement;
-			if( cap.CaptureMouseMove())
-			{
-				if( LastDragBounds.Width > 0 && LastDragBounds.Height > 0 )
-				{
-					if( LastDragBounds.Width != this.Width 
-                        || LastDragBounds.Height != this.Height )
-					{
-						System.Drawing.SizeF OldSize = new System.Drawing.SizeF( 
-                            this.Width , 
-                            this.Height );
-						this.InvalidateView();
-						this.EditorSize = new SizeF(LastDragBounds.Width , LastDragBounds.Height );
-						this.InvalidateView();
-                        ce.SetSelection( this.ViewIndex , 1 );
-						if( this.OwnerDocument.BeginLogUndo() )
-						{
-							this.OwnerDocument.UndoList.AddProperty( 
-								XTextUndoStyles.EditorSize , 
-								OldSize , 
-								new System.Drawing.SizeF( this.Width , this.Height ),
-								this );
-							this.OwnerDocument.EndLogUndo();
-						}
+            if (cap.CaptureMouseMove())
+            {
+                if (LastDragBounds.Width > 0 && LastDragBounds.Height > 0)
+                {
+                    if (LastDragBounds.Width != this.Width
+                        || LastDragBounds.Height != this.Height)
+                    {
+                        System.Drawing.SizeF OldSize = new System.Drawing.SizeF(
+                            this.Width,
+                            this.Height);
+                        this.InvalidateView();
+                        this.EditorSize = new SizeF(LastDragBounds.Width, LastDragBounds.Height);
+                        this.InvalidateView();
+                        ce.SetSelection(this.ViewIndex, 1);
+                        if (this.OwnerDocument.BeginLogUndo())
+                        {
+                            this.OwnerDocument.UndoList.AddProperty(
+                                XTextUndoStyles.EditorSize,
+                                OldSize,
+                                new System.Drawing.SizeF(this.Width, this.Height),
+                                this);
+                            this.OwnerDocument.EndLogUndo();
+                        }
                         this.ContentElement.RefreshPrivateContent(
                             this.ContentElement.PrivateContent.IndexOf(this));
                         //ce.RefreshPrivateContent(ce.Content.IndexOf(this));
-						this.OwnerDocument.Modified = true ;
-						return true ;
-					}
-				}
-			}
-			return false;
-		}
+                        this.OwnerDocument.Modified = true;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
-		private System.Drawing.Rectangle LastDragBounds = System.Drawing.Rectangle.Empty ;
+        private System.Drawing.Rectangle LastDragBounds = System.Drawing.Rectangle.Empty;
 
         private void cap_Draw(object sender, CaptureMouseMoveEventArgs e)
         {
@@ -386,7 +375,7 @@ namespace DCSoft.CSharpWriter.Dom
         /// <summary>
         /// 专为编辑器提供的对象大小属性
         /// </summary>
-        [System.ComponentModel.Browsable( false )]
+        [System.ComponentModel.Browsable(false)]
         [System.Xml.Serialization.XmlIgnore()]
         public override SizeF EditorSize
         {
@@ -419,6 +408,6 @@ namespace DCSoft.CSharpWriter.Dom
                 this.Height = height;
             }
         }
-         
-	}
+
+    }
 }
