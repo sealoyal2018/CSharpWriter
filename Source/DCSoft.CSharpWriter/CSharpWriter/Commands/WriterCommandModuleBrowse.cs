@@ -7,13 +7,9 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using DCSoft.CSharpWriter.Dom;
 using DCSoft.CSharpWriter.Controls;
-using System.Windows.Forms ;
+using System.Windows.Forms;
 using DCSoft.Printing;
-using DCSoft.CSharpWriter.Printing;
 using DCSoft.Common;
 
 namespace DCSoft.CSharpWriter.Commands

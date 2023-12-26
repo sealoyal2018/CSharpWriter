@@ -8,25 +8,19 @@ Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
 using DCSoft.WinForms;
-using DCSoft.Printing ;
- 
+using DCSoft.Printing;
+
 using DCSoft.CSharpWriter.Dom;
 using DCSoft.CSharpWriter.Commands;
-using DCSoft.CSharpWriter.Dom.Undo;
 using DCSoft.Drawing;
 using System.Windows.Forms;
 using System.Drawing;
 using DCSoft.WinForms.Native;
-using System.ComponentModel ;
-using System.ComponentModel.Design ;
-using System.Collections ;
-using System.Collections.Generic ;
-using DCSoft.Common;
+using System.ComponentModel;
+using System.Collections.Generic;
 using DCSoft.CSharpWriter.Undo;
 using System.Text;
 using DCSoft.CSharpWriter.Security;
-using DCSoft.CSharpWriter.Printing;
-using DCSoft.CSharpWriter.Data;
 using DCSoft.CSharpWriter.Script;
 
 namespace DCSoft.CSharpWriter.Controls
@@ -2006,35 +2000,6 @@ namespace DCSoft.CSharpWriter.Controls
                 return this.Document.Selection;
             }
         }
-
-        /// <summary>
-        /// 打印整个文档
-        /// </summary>
-        public void PrintDocument()
-        {
-            CheckHandle();
-            DocumentPrinter printer = new DocumentPrinter(this.Document);
-            printer.JumpPrint = this._JumpPrint;
-            printer.CurrentPage = this.CurrentPage;
-            printer.PrintRange = System.Drawing.Printing.PrintRange.AllPages;
-            printer.PrintDocument(true);
-            this.RefreshDocument();
-        }
-
-        /// <summary>
-        /// 打印当前页
-        /// </summary>
-        public void PrintCurrentPage()
-        {
-            CheckHandle();
-            DocumentPrinter printer = new DocumentPrinter(this.Document);
-            printer.JumpPrint = this._JumpPrint;
-            printer.CurrentPage = this.CurrentPage;
-            printer.PrintRange = System.Drawing.Printing.PrintRange.CurrentPage;
-            printer.PrintDocument(true);
-            this.RefreshDocument();
-        }
-
         /// <summary>
         /// 文档内容发生改变事件
         /// </summary>

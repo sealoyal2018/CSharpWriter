@@ -587,10 +587,6 @@
     <Compile Include="CSharpWriter\EnableState.cs" />
     <Compile Include="CSharpWriter\FileFormat.cs" />
     <Compile Include="CSharpWriter\MoveUnit.cs" />
-    <Compile Include="CSharpWriter\Printing\DocumentPrinter.cs" />
-    <Compile Include="CSharpWriter\Printing\WriterPrintDocument.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="CSharpWriter\Script\dlgExpressionEditor.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -6,17 +6,11 @@ It can use in WinForm.NET ,WPF,Console application.Any idea about CSharpWriter
 can write to 28348092@qq.com(or yyf9989@hotmail.com). 
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using DCSoft.CSharpWriter.Dom;
 using DCSoft.Printing;
-using DCSoft.CSharpWriter.Printing;
 using DCSoft.CSharpWriter.Data;
 using DCSoft.Drawing;
-using System.Web;
- 
+
 
 namespace DCSoft.CSharpWriter.Commands
 {
@@ -252,170 +246,6 @@ namespace DCSoft.CSharpWriter.Commands
                 }
             }
         }
-
-        /// <summary>
-        /// 打印文档
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        [WriterCommandDescription( StandardCommandNames.FilePrint , 
-            ImageResource = "DCSoft.CSharpWriter.Commands.Images.CommandPrint.bmp")]
-        protected void FilePrint(object sender, WriterCommandEventArgs args)
-        {
-            if (args.Mode == WriterCommandEventMode.QueryState)
-            {
-                args.Enabled = args.Document != null && args.Document.Options.BehaviorOptions.Printable ;
-            }
-            else if (args.Mode == WriterCommandEventMode.Invoke)
-            {
-                args.Result = false;
-                if (args.Document.Options.BehaviorOptions.Printable == false)
-                {
-                    // 文档禁止打印
-                    return;
-                }
-                DocumentPrinter printer = new DocumentPrinter( args.Document);
-                if (args.EditorControl != null)
-                {
-                    printer.JumpPrint =  args.EditorControl._JumpPrint;
-                    printer.CurrentPage = args.EditorControl.CurrentPage;
-                }
-                if (args.Parameter is JumpPrintInfo)
-                {
-                    JumpPrintInfo info = (JumpPrintInfo)args.Parameter;
-                    printer.JumpPrint = args.Document.GetJumpPrintInfo(info.Position);
-                }
-                printer.PrintRange = System.Drawing.Printing.PrintRange.AllPages;
-                InnerPrint(args, printer, true );
-            }
-        }
-
-        /// <summary>
-        /// 整洁打印文档,不支持续打和打印当前页。
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        [WriterCommandDescription(StandardCommandNames.FileCleanPrint,
-            ImageResource = "DCSoft.CSharpWriter.Commands.Images.CommandPrint.bmp")]
-        protected void FileCleanPrint(object sender, WriterCommandEventArgs args)
-        {
-            if (args.Mode == WriterCommandEventMode.QueryState)
-            {
-                args.Enabled = args.Document != null && args.Document.Options.BehaviorOptions.Printable;
-            }
-            else if (args.Mode == WriterCommandEventMode.Invoke)
-            {
-                args.Result = false;
-                if (args.Document.Options.BehaviorOptions.Printable == false)
-                {
-                    // 文档禁止打印
-                    return;
-                }
-                DocumentPrinter printer = new DocumentPrinter(args.Document);
-                printer.CleanMode = true;
-                if (args.EditorControl != null)
-                {
-                    printer.JumpPrint = args.EditorControl._JumpPrint;
-                    printer.CurrentPage = args.EditorControl.CurrentPage;
-                }
-                if (args.Parameter is JumpPrintInfo)
-                {
-                    JumpPrintInfo info = (JumpPrintInfo)args.Parameter;
-                    printer.JumpPrint = args.Document.GetJumpPrintInfo(info.Position);
-                }
-                printer.PrintRange = System.Drawing.Printing.PrintRange.AllPages;
-                InnerPrint(args, printer, true);
-            }
-        }
-
-        private void InnerPrint(
-            WriterCommandEventArgs args,
-            DocumentPrinter printer ,
-            bool refreshDocument )
-        {
-            System.Windows.Forms.Cursor cur = null;
-            JumpPrintInfo infoBack = null;
-            int piBack = -1;
-            if (args.EditorControl != null)
-            {
-                infoBack = args.EditorControl._JumpPrint.Clone();
-                if (infoBack.Enabled && infoBack.Page != null)
-                {
-                    piBack = args.EditorControl.Pages.IndexOf(infoBack.Page);
-                }
-            
-                printer.WriterControl = args.EditorControl;
-                cur = args.EditorControl.Cursor;
-                args.EditorControl.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-                if (refreshDocument)
-                {
-                    // 冻结用户界面
-                    args.EditorControl.FreezeUI();
-                }
-            }
-            try
-            {
-                args.Result = printer.PrintDocument(args.ShowUI);
-            }
-            finally
-            {
-                if (args.EditorControl != null)
-                {
-                    if (refreshDocument)
-                    {
-                        args.EditorControl.RefreshDocument();
-                        if (piBack >= 0 )
-                        {
-                            infoBack.Page = args.EditorControl.Pages[piBack];
-                            args.EditorControl._JumpPrint = infoBack;
-                        }
-                        args.EditorControl.ReleaseFreezeUI();
-                    }
-                    args.EditorControl.Cursor = cur;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 打印当前页
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        [WriterCommandDescription(StandardCommandNames.FilePrintCurrentPage,
-            ImageResource = "DCSoft.CSharpWriter.Commands.Images.CommandPrint.bmp")]
-        protected void PrintCurrentPage(object sender, WriterCommandEventArgs args)
-        {
-            if (args.Mode == WriterCommandEventMode.QueryState)
-            {
-                args.Enabled = ( args.Document != null 
-                    && args.EditorControl != null 
-                    && args.Document.Options.BehaviorOptions.Printable  );
-            }
-            else if (args.Mode == WriterCommandEventMode.Invoke)
-            {
-                args.Result = false;
-                if (args.Document.Options.BehaviorOptions.Printable == false)
-                {
-                    // 文档禁止打印
-                    return;
-                }
-                DocumentPrinter printer = new DocumentPrinter(args.Document);
-                if (args.EditorControl != null)
-                {
-                    printer.JumpPrint = args.EditorControl._JumpPrint;
-                    printer.CurrentPage = args.EditorControl.CurrentPage;
-                }
-                if (args.Parameter is JumpPrintInfo)
-                {
-                    JumpPrintInfo info = (JumpPrintInfo)args.Parameter;
-                    printer.JumpPrint = args.Document.GetJumpPrintInfo(info.Position);
-                }
-                printer.PrintRange = System.Drawing.Printing.PrintRange.CurrentPage ;
-
-                InnerPrint(args, printer, false );
-            }
-        }
-
 
         /// <summary>
         /// 若文档内容修改则询问用户是否保存。
