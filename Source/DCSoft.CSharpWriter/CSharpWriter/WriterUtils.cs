@@ -41,10 +41,6 @@ namespace DCSoft.CSharpWriter
             {
                 return FileFormat.XML ;
             }
-            else if (string.Compare(ext, ".rtf", true) == 0)
-            {
-                return FileFormat.RTF ;
-            }
             else if (string.Compare(ext, ".htm", true) == 0
                 || string.Compare(ext, ".html", true) == 0)
             {

@@ -7,11 +7,9 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Xml.Serialization;
-using DCSoft.CSharpWriter.RTF;
 using DCSoft.CSharpWriter.Dom;
 using DCSoft.CSharpWriter.Html;
 using DCSoft.CSharpWriter.Xml;
@@ -115,113 +113,6 @@ namespace DCSoft.CSharpWriter
         }
 
         #endregion
-
-        #region 输出RTF文档 *************************************************************
-
-        public static void SaveRTFFile(string fileName, DomDocument document)
-        {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException("fileName");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            using (StreamWriter writer = new StreamWriter(
-                fileName,
-                false ,
-                Encoding.Default ))
-            {
-                RTFContentWriter RTFwriter = new RTFContentWriter( writer );
-                RTFwriter.Document = document;
-                RTFwriter.IncludeSelectionOnly = false;
-                RTFwriter.WriteAllDocument();
-                writer.Close();
-            }
-        }
-
-        public static void SaveRTFFile(
-            Stream stream,
-            DomDocument document)
-        {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            using (StreamWriter writer = new StreamWriter(
-                stream,
-                Encoding.Default ))
-            {
-                RTFContentWriter RTFwriter = new RTFContentWriter( writer );
-                RTFwriter.Document = document;
-                RTFwriter.IncludeSelectionOnly = false;
-                RTFwriter.WriteAllDocument();
-                writer.Close();
-            }
-        }
-
-        public static void SaveRTFFile(
-            TextWriter writer,
-            DomDocument document)
-        {
-            if (writer == null)
-            {
-                throw new ArgumentNullException("writer");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            RTFContentWriter RTFwriter = new RTFContentWriter(writer);
-            RTFwriter.Document = document;
-            RTFwriter.IncludeSelectionOnly = false;
-            RTFwriter.WriteAllDocument();
-            writer.Close();
-        }
-
-        #endregion
-
-        #region 输出HTML文档 *************************************************
-         
-
-        public static void SaveHtmlFile(string fileName, bool saveAttachFile, DomDocument document)
-        {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException("fileName");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            WriterHtmlDocumentWriter htmlWriter = new WriterHtmlDocumentWriter();
-            htmlWriter.Documents.Add(document);
-            htmlWriter.IncludeSelectionOndly = false  ;
-            htmlWriter.ViewStyle = WriterHtmlViewStyle.Normal;
-            htmlWriter.Options.Indent = true;
-            htmlWriter.Options.UseClassAttribute = false ;
-            htmlWriter.Refresh();
-            string attachFilePath = null;
-            if (htmlWriter.AttachFiles != null && htmlWriter.AttachFiles.Count > 0)
-            {
-                // 存在附属文件,则创建附属文件目录
-                attachFilePath = Path.GetDirectoryName(fileName);
-                string name = Path.GetFileNameWithoutExtension(fileName) + ".files";
-                attachFilePath = Path.Combine(attachFilePath, name);
-                if (Directory.Exists(attachFilePath) == false)
-                {
-                    Directory.CreateDirectory(attachFilePath);
-                }
-            }//if
-            htmlWriter.Save(fileName, attachFilePath);
-        }
-
-#endregion
 
         #region 输出纯文本文档 *************************************************
 

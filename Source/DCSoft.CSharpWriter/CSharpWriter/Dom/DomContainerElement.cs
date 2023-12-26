@@ -497,29 +497,6 @@ namespace DCSoft.CSharpWriter.Dom
 			}
 		}
 
-        /// <summary>
-        /// 输出RTF文档
-        /// </summary>
-        /// <param name="writer">RTF文档书写器</param>
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            DomElementList list = WriterUtils.MergeParagraphs(
-                this.Elements,
-                writer.IncludeSelectionOnly);
-            if (list != null && list.Count > 0)
-            {
-                foreach (DomElement element in list)
-                {
-                     
-                    //if (writer.IncludeSelectionOnly == false
-                    //    || element.HasSelection)
-                    {
-                        element.WriteRTF(writer);
-                    }
-                }//foreach
-            }
-        }
-
         //public virtual void WriteCotentDocument( DocumentContentWriter writer )
         //{
         //    XTextElementList list = WriterUtils.MergeParagraphs(

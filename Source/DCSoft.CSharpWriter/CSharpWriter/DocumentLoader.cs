@@ -7,13 +7,11 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using System.Collections.Generic;
 using System.Text;
 using System.Xml.Serialization;
 using System.IO;
-using DCSoft.CSharpWriter.RTF;
 using DCSoft.CSharpWriter.Dom;
-using DCSoft.CSharpWriter.Data ;
+using DCSoft.CSharpWriter.Data;
 using DCSoft.HtmlDom;
 using DCSoft.CSharpWriter.Html;
 
@@ -256,32 +254,6 @@ namespace DCSoft.CSharpWriter
         //    return loader.LoadOldXml(document, xmlDoc.DocumentElement);
         //}
 
-        public static void LoadRTFFile(string fileName, DomDocument document)
-        {
-            if (fileName == null)
-            {
-                throw new ArgumentNullException("fileName");
-            }
-            if (System.IO.File.Exists(fileName) == false)
-            {
-                throw new System.IO.FileNotFoundException(fileName);
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            
-            using (StreamReader reader = new StreamReader(
-                fileName,
-                Encoding.Default,
-                true))
-            {
-                RTFLoader loader = new RTFLoader();
-                loader.Load(reader);
-                loader.EnableDocumentSetting = true;
-                loader.ReadContent(document);
-            }
-        }
 
         public static void LoadHtmlFile(
             System.IO.Stream stream ,
@@ -368,46 +340,6 @@ namespace DCSoft.CSharpWriter
         //    loader.Load(htmlDoc, document);
         //    document.AfterLoad(FileFormat.Html);
         //}
-         
-        public static void LoadRTFFile(
-            Stream stream,
-            DomDocument document)
-        {
-            if (stream == null)
-            {
-                throw new ArgumentNullException("stream");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            StreamReader reader = new StreamReader(
-                stream,
-                Encoding.Default,
-                true);
-            RTFLoader loader = new RTFLoader();
-            loader.Load(reader);
-            loader.EnableDocumentSetting = true;
-            loader.ReadContent(document);
-        }
-
-        public static void LoadRTFFile(
-            TextReader reader,
-            DomDocument document)
-        {
-            if (reader == null)
-            {
-                throw new ArgumentNullException("reader");
-            }
-            if (document == null)
-            {
-                throw new ArgumentNullException("document");
-            }
-            RTFLoader loader = new RTFLoader();
-            loader.Load(reader);
-            loader.EnableDocumentSetting = true;
-            loader.ReadContent(document);
-        }
 
         public static void LoadTextFile(string fileName, DomDocument document)
         {

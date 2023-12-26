@@ -9,7 +9,6 @@ Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 using System;
 
 using DCSoft.Drawing;
-using DCSoft.RTF;
 using System.Xml.Serialization;
 using System.ComponentModel ;
 
@@ -212,13 +211,6 @@ namespace DCSoft.CSharpWriter.Dom
 			return list ;
 		}
 
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            writer.WriteStartString(
-                this.GetOutputText(writer.IncludeSelectionOnly),
-                this.RuntimeStyle);
-            writer.WriteEndString();
-		}
 
         public override string ToString()
         {

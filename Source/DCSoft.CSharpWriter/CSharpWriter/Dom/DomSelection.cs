@@ -7,13 +7,9 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using DCSoft.CSharpWriter.Dom.Undo ;
-using DCSoft.Drawing;
-using System.Drawing;
 using DCSoft.Common;
 using System.Collections;
 using System.Collections.Generic;
-using DCSoft.CSharpWriter.RTF;
 
 namespace DCSoft.CSharpWriter.Dom
 {
@@ -472,45 +468,6 @@ namespace DCSoft.CSharpWriter.Dom
             }
         }
 
-        /// <summary>
-        /// 获得表示内容的RTF文本
-        /// </summary>
-        public string RTFText
-        {
-            get
-            {
-                if (_Length == 0)
-                {
-                    return "";
-                }
-
-                DomDocument document = this._DocumentContent.OwnerDocument;
-                System.IO.StringWriter writer = new System.IO.StringWriter();
-                RTFContentWriter w = new RTFContentWriter();
-                w.Open(writer);
-                w.Document = document;
-                w.CollectionDocumentsStyle();
-                w.WriteStartDocument( document );
-                if (this.Mode == ContentRangeMode.Content)
-                {
-                    w.IncludeSelectionOnly = false;
-                    DomElementList list = document.CreateParagraphs(this);
-                    if (list == null || list.Count == 0)
-                    {
-                        return "";
-                    }
-                    w.WriteItems(list);
-                }
-                else
-                {
-                    w.IncludeSelectionOnly = true;
-                    this.DocumentContent.WriteRTF(w);
-                }
-                w.WriteEndDocument();
-                w.Close();
-                return writer.ToString();
-            }
-        }
 
         /// <summary>
         /// 设置段落样式

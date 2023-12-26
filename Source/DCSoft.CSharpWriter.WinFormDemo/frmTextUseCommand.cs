@@ -35,20 +35,9 @@ namespace DCSoft.CSharpWriter.WinFormDemo
         public frmTextUseCommand()
         {
             InitializeComponent();
-            //myEditControl.Enabled = false;
             myEditControl.ServerObject = new ServerObjectSample(this);
             myEditControl.DoubleBuffering = false;
-            //myEditControl.ViewMode = Printing.PageViewMode.Normal;
-            //myEditControl.Document.Options.EditOptions.AutoEditElementValue = true;
-            //myEditControl.IsAdministrator = true;
-            //myEditControl.Readonly = true;
-           
-             //myEditControl.IsAdministrator = true;
-            //myEditControl.DocumentControler.DataFilter = new MyDataFilter();
-            //myEditControl.HeaderFooterReadonly = true;
             myEditControl.AllowDragContent = true;
-            //DocumentContentStyle style = myEditControl.Document.Style;
-            //myEditControl.AutoSetDocumentDefaultFont = false;
               
         }
 
@@ -83,7 +72,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
                 var fns = Directory.GetFiles(dir, "*.xml");
                 if (fns != null && fns.Length > 0)
                 {
-                    btnDemoFiles.Visible = true;
                     foreach (var fn in fns)
                     {
                         var menu = new System.Windows.Forms.ToolStripMenuItem(Path.GetFileName(fn));
@@ -97,10 +85,8 @@ namespace DCSoft.CSharpWriter.WinFormDemo
                                 this.Cursor = Cursors.WaitCursor;
                                 this.myEditControl.LoadDocument(fn2, FileFormat.XML);
                                 this.Cursor = Cursors.Default;
-                                //this.myEditControl.ExecuteCommand("FileOpen", true, fn2);
                             }
                         };
-                        btnDemoFiles.DropDownItems.Add(menu);
                     }
                 }
             }
@@ -187,178 +173,12 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             base.OnClosing(e);
         }
 
-        private void menuOpenXMLDemo_Click(object sender, EventArgs e)
-        {
-            HandleCommand(MyCommandNames.OpenXMLDemo);
-        }
-
-        private void menuOpenRTFDemo_Click(object sender, EventArgs e)
-        {
-            HandleCommand(MyCommandNames.OpenRTFDemo);
-        }
-
-        private void mOpenFormViewDemo_Click(object sender, EventArgs e)
-        {
-            HandleCommand(MyCommandNames.OpenFormViewDemo);
-        }
 
         /// <summary>
         /// Current file name.
         /// </summary>
         private string strFileName = null;
          
-        /// <summary>
-        /// Handle commands
-        /// </summary>
-        /// <param name="Command">command name</param>
-        public void HandleCommand(string Command)
-        {
-            if (Command == null)
-                return;
-            Command = Command.Trim();
-            try
-            {
-                switch (Command)
-                {
-                    case MyCommandNames.OpenXMLDemo:
-                        if (QuerySave())
-                        {
-                            this.strFileName = null;
-                            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-                            string name = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
-                            name = name.Trim().ToLower();
-                            name = "DCSoft.CSharpWriter.WinFormDemo.DemoFile.demo.xml";
-                            myEditControl.ExecuteCommand("FormViewMode", false, false);
-                            using (System.IO.Stream stream = this.GetType().Assembly.GetManifestResourceStream(name))
-                            {
-                                myEditControl.LoadDocument(stream, FileFormat.XML);
-                                stream.Close();
-                            }
-                            this.Cursor = System.Windows.Forms.Cursors.Default;
-                        }
-                        break;
-                    case MyCommandNames.OpenFormViewDemo :
-                        if (QuerySave())
-                        {
-                            this.strFileName = null;
-                            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-                            string name = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
-                            name = name.Trim().ToLower();
-                            name = "DCSoft.CSharpWriter.WinFormDemo.DemoFile.FormViewModeDemo.xml";
-                            using (System.IO.Stream stream = this.GetType().Assembly.GetManifestResourceStream(name))
-                            {
-                                myEditControl.LoadDocument(stream, FileFormat.XML);
-                                stream.Close();
-                            }
-                            myEditControl.ExecuteCommand("FormViewMode", false, true);
-                            myEditControl.AutoScrollPosition = new Point(0, 0);
-                            myEditControl.UpdateTextCaret();
-                            this.Cursor = System.Windows.Forms.Cursors.Default;
-                        }
-                        break;
-                    case MyCommandNames.OpenRTFDemo:
-                        if (QuerySave())
-                        {
-                            this.strFileName = null;
-                            this.Cursor = System.Windows.Forms.Cursors.WaitCursor;
-                            string name = System.Threading.Thread.CurrentThread.CurrentUICulture.Name;
-                            name = name.Trim().ToLower();
-                            name = "DCSoft.CSharpWriter.WinFormDemo.DemoFile.demo.rtf";
-                            using (System.IO.Stream stream = this.GetType().Assembly.GetManifestResourceStream(name))
-                            {
-                                this.myEditControl.LoadDocument(stream, FileFormat.RTF);
-                                stream.Close();
-                            }
-                            myEditControl.ExecuteCommand("FormViewMode", false, false);
-                            this.Cursor = System.Windows.Forms.Cursors.Default;
-                        }
-                        break;
-                    case MyCommandNames.New:
-                        // new document
-                        if (QuerySave())
-                        {
-                            this.myEditControl.ClearContent();
-                            //myEditControl.Document.HeaderString = GetResourceString("_TEXTDEMO");
-                            //myEditControl.Document.HeaderHeight = 100 ;
-                            //myEditControl.Document.HeaderFont = new XFontValue( System.Windows.Forms.Control.DefaultFont.Name , 12 );
-                            //myEditControl.Document.FooterString = "[%pageindex%]/[%pagecount%]";
-                            //myEditControl.Document.FooterHeight = 100 ;
-                            //myEditControl.Document.FooterFont = new XFontValue( System.Windows.Forms.Control.DefaultFont.Name , 12 );
-                            myEditControl.RefreshDocument();
-                            strFileName = null;
-                        }
-                        break;
-                    case MyCommandNames.Open:
-                        // open document
-                        if (QuerySave())
-                        {
-                            using (System.Windows.Forms.OpenFileDialog dlg = new OpenFileDialog())
-                            {
-                                dlg.Filter = "*.xml|*.xml";
-                                dlg.CheckFileExists = true;
-                                if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-                                {
-                                    this.Update();
-                                    this.OpenDocument(dlg.FileName);
-                                }
-                            }
-                        }
-                        break;
-                    case MyCommandNames.Save:
-                        // save document
-                        SaveDocument(strFileName);
-                        break;
-                    case MyCommandNames.SaveAs:
-                        // save document as
-                        SaveDocument(null);
-                        break;
-                      
-                    //case MyCommandNames.ShowBookmark:
-                    //    // show or hide bookmark
-                    //    myEditControl.Document.ViewOptions.ShowBookmark = !myEditControl.Document.ViewOptions.ShowBookmark;
-                    //    //menuShowBookmark.Checked = myEditControl.Document.ShowBookmark ;
-                    //    this.mShowBookmark.Checked = myEditControl.Document.ViewOptions.ShowBookmark;
-                    //    myEditControl.Invalidate();
-                    //    break;
-                    //case MyCommandNames.WordCount:
-                    //    this.ShowWordCount();
-                    //    break;
-                     
-                    default:
-#if DEBUG
-                        this.Alert("Bad command:" + Command);
-#endif
-                        break;
-                }
-            }
-            catch (Exception ext)
-            {
-                this.Alert( "error:"  + ext.ToString());
-                this.Status = "error:"  + ext.Message;
-            }
-            this.UpdateFormText();
-        }
-
-
-        /// <summary>
-        /// Show a message box
-        /// </summary>
-        /// <param name="msg">message text</param>
-        private void Alert(string msg)
-        {
-            MessageBox.Show(this, msg, this.Text);
-        }
-
-
-        /// <summary>
-        /// get or set main status text
-        /// </summary>
-        private string Status
-        {
-            get { return this.lblStatus.Text; }
-            set { this.lblStatus.Text = value; this.Update(); }
-        }
-
 
         /// <summary>
         /// open special file
@@ -375,31 +195,16 @@ namespace DCSoft.CSharpWriter.WinFormDemo
                 {
                     style = FileFormat.XML;
                 }
-                else if (name.EndsWith(".rtf"))
-                {
-                    style = FileFormat.RTF;
-                }
                 else if (name.EndsWith(".txt"))
                 {
                     style = FileFormat.Text;
                 }
-                this.Status = "Loading" + fileName;
                 this.myEditControl.LoadDocument(fileName, style);
                 this.strFileName = fileName;
-                this.Status = "loaded " + fileName;
                 UpdateFormText();
             }
             catch (Exception ext)
             {
-                this.Alert(
-                    string.Format(
-                        "open file'{0}' error:'{1}'",
-                    fileName,
-                    ext.ToString()));
-                this.Status = string.Format(
-                        "open file'{0}' error:'{1}'",
-                    fileName,
-                    ext.Message);
             }
             this.Cursor = System.Windows.Forms.Cursors.Default;
         }
@@ -430,24 +235,16 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             try
             {
                 string name2 = name.Trim().ToLower();
-                if (name2.EndsWith(".rtf"))
-                    style = FileFormat.RTF;
-                else
                     style = FileFormat.XML;
-                this.Status = "Saving " + name;
                 if (this.myEditControl.SaveDocument(name, style))
                 {
                     strFileName = name;
                 }
-                this.Status = "Saved " + name;
                 UpdateFormText();
                 return true;
             }
             catch (Exception ext)
             {
-                string txt = string.Format("Save file'{0}' error:'{1}'", name, ext.ToString());
-                this.Alert(txt);
-                this.Status = txt;
                 return false;
             }
         }
@@ -497,7 +294,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
         /// <param name="e"></param>
         private void myEditControl_SelectionChanged(object sender, EventArgs e)
         {
-            
 
             DomContentLine line = myEditControl.Document.CurrentContentElement.CurrentLine;
             if (line != null && line.OwnerPage != null)
@@ -513,7 +309,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
                         " Selected{0}elements",
                         Math.Abs(myEditControl.Selection.Length));
                 }
-                this.lblPosition.Text = txt;
             }
             UpdateFormText();
              
@@ -643,52 +438,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
         { 
         }
 
-        private void mXML2RTF_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show( "Conver a xml to rtf file" );
-            string sourceFileName = null;
-            string descFileName = null;
-            using (OpenFileDialog dlg = new OpenFileDialog())
-            {
-                dlg.Filter = "*.xml|*.xml";
-                dlg.CheckFileExists = true;
-                dlg.ShowReadOnly = false;
-                if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-                {
-                    sourceFileName = dlg.FileName;
-                }
-                else
-                {
-                    return;
-                }
-            }
-            using (SaveFileDialog dlg = new SaveFileDialog())
-            {
-                dlg.Filter = "RTF文件(*.rtf)|*.rtf";
-                dlg.CheckPathExists = true;
-                dlg.OverwritePrompt = true;
-                if (dlg.ShowDialog(this) == System.Windows.Forms.DialogResult.OK)
-                {
-                    descFileName = dlg.FileName;
-                }
-                else
-                {
-                    return;
-                }
-            }
-
-            DomDocument document = new DomDocument();
-            document.Load(sourceFileName, FileFormat.XML);
-            using (System.Drawing.Graphics g = document.CreateGraphics())
-            {
-                document.RefreshSize(g);
-                document.ExecuteLayout();
-                document.RefreshPages();
-                document.Save(descFileName, FileFormat.RTF);
-            }
-            MessageBox.Show( string.Format( "success convert xml file'{0}' to rtf file'{1}'" , sourceFileName , descFileName ));
-        }
-
         /// <summary>
         /// 文档内容发生改变事件
         /// </summary>
@@ -708,12 +457,6 @@ namespace DCSoft.CSharpWriter.WinFormDemo
             myEditControl.ExecuteCommand("InsertCheckBoxList", true, null);
 
             //myEditControl.Document.GetSpecifyElements(typeof(XTextCheckBoxElement));
-        }
-         
-        private void myEditControl_StatusTextChanged(object sender, EventArgs e)
-        {
-            lblStatus.Text = myEditControl.StatusText;
-            this.statusStrip1.Refresh();
         }
          
         /// <summary>

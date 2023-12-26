@@ -23,10 +23,7 @@ namespace DCSoft.CSharpWriter
 		/// 标准的XML序列化格式
 		/// </summary>
 		XML ,
-		/// <summary>
-		/// RTF文档
-		/// </summary>
-		RTF ,
+
 		/// <summary>
 		/// 纯文本
 		/// </summary>

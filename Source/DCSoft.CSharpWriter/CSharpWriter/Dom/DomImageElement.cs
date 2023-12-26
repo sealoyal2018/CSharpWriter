@@ -584,28 +584,6 @@ namespace DCSoft.CSharpWriter.Dom
             }
         }
 
-
-        /// <summary>
-        /// 输出对象到RTF文档中
-        /// </summary>
-        /// <param name="writer">RTF文档书写器</param>
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            System.Drawing.SizeF size = new System.Drawing.SizeF(this.Width, this.Height);
-            size = GraphicsUnitConvert.Convert(
-                size,
-                this.OwnerDocument.DocumentGraphicsUnit,
-                GraphicsUnit.Pixel);
-            
-                writer.WriteImage(
-                    this.Image.Value,
-                    (int)size.Width,
-                    (int)size.Height,
-                    this.Image.ImageData,
-                    this.RuntimeStyle);
-           
-        }
-
         /// <summary>
         /// 返回表示对象的字符串
         /// </summary>

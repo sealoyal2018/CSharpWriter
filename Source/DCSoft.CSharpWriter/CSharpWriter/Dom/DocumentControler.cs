@@ -7,17 +7,13 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using System.Collections.Generic;
-using System.Collections;
 using System.Text;
 using DCSoft.Common;
-using DCSoft.CSharpWriter.Controls ;
+using DCSoft.CSharpWriter.Controls;
 using DCSoft.Drawing;
-using DCSoft.CSharpWriter.RTF;
 using DCSoft.CSharpWriter.Html;
 using System.ComponentModel;
 using System.Windows.Forms;
-using DCSoft.CSharpWriter.Security;
 using System.Drawing;
 
 namespace DCSoft.CSharpWriter.Dom
@@ -733,26 +729,7 @@ namespace DCSoft.CSharpWriter.Dom
                     return false;
                 }
             }
-            if (specifyFormat == DataFormats.Rtf || specifyFormat == null)
-            {
-                if (helper.HasRtf)
-                {
-                    // 插入RTF文档
-                    if (this.CanInsertAtCurrentPosition)
-                    {
-                        string rtf = helper.Rtf;
-                        return InsertRTF(rtf, true , InputValueSource.Clipboard );
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                if (specifyFormat != null)
-                {
-                    return false;
-                }
-            }
+            
             if (specifyFormat == DataFormats.Text || specifyFormat == null)
             {
                 if (helper.HasText)
@@ -833,99 +810,6 @@ namespace DCSoft.CSharpWriter.Dom
             }
             this.Document.OnDocumentContentChanged();
             return true;
-        }
-
-        /// <summary>
-        /// 在当前位置插入RTF文档
-        /// </summary>
-        /// <param name="rtfText">RTF文本</param>
-        /// <returns>操作是否成功</returns>
-        public bool InsertRTF(string rtfText)
-        {
-            return InsertRTF(rtfText, true, InputValueSource.Unknow );
-        }
-
-        /// <summary>
-        /// 在当前位置插入RTF文档
-        /// </summary>
-        /// <param name="rtfText">RTF文本</param>
-        /// <param name="logUndo">是否记录撤销操作</param>
-        public virtual bool InsertRTF(string rtfText  , bool logUndo , InputValueSource inputSource )
-        {
-            if (this.ValueFilter != null)
-            {
-                // 调用数据过滤器
-                FilterValueEventArgs args = new FilterValueEventArgs( inputSource , InputValueType.RTF, rtfText);
-                this.ValueFilter(this, args);
-                if (args.Cancel)
-                {
-                    // 取消操作
-                    return false;
-                }
-                rtfText = args.Value as string;
-                if (string.IsNullOrEmpty(rtfText))
-                {
-                    // 数据全部过滤掉了，操作失败
-                    return false;
-                }
-            }
-            if (rtfText == null || rtfText.Length == 0)
-            {
-                throw new ArgumentNullException("rtfText");
-            }
-            RTFLoader loader = new RTFLoader();
-            loader.EnableDocumentSetting = false;
-            loader.ImportTemplateGenerateParagraph = false;
-            loader.LoadRTFText(rtfText);
-            DomElementList list = loader.ImportContent(this.Document);
-            if (list != null && list.Count > 0)
-            {
-                // 不导入页眉页脚部分
-                for (int iCount = list.Count - 1; iCount >= 0; iCount--)
-                {
-                    if (list[iCount] is XTextDocumentFooterElement
-                        || list[iCount] is XTextDocumentHeaderElement)
-                    {
-                        list.RemoveAt(iCount);
-                    }
-                }
-                if ( list.Count > 0 && this.ValueFilter != null)
-                {
-                    // 调用数据过滤器
-                    FilterValueEventArgs args = new FilterValueEventArgs(inputSource, InputValueType.Dom, list);
-                    this.ValueFilter(this, args);
-                    if (args.Cancel)
-                    {
-                        // 用户取消操作
-                        return false;
-                    }
-                    list = args.Value as DomElementList;
-                    if (list == null || list.Count == 0)
-                    {
-                        // 数据全部被过滤掉了
-                        return false;
-                    }
-                }
-                if (logUndo)
-                {
-                    this.Document.BeginLogUndo();
-                }
-                if (this.DocumentContent.HasSelection)
-                {
-                    this.Content.DeleteSelection(true, false, false);
-                }
-                this.InnerInsertElements(list, false);
-                if (logUndo)
-                {
-                    this.Document.EndLogUndo();
-                }
-                this.Document.OnDocumentContentChanged();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
         }
 
         /// <summary>
@@ -1189,12 +1073,7 @@ namespace DCSoft.CSharpWriter.Dom
                 System.Windows.Forms.DataObject obj = new System.Windows.Forms.DataObject();
                 // 设置纯文本数据
                 obj.SetData(System.Windows.Forms.DataFormats.Text, selection.Text);
-                // 设置RTF数据
-                string rtf = selection.RTFText;// this.GetRTFText( true );
-                if (rtf != null && rtf.Length > 0)
-                {
-                    obj.SetData(System.Windows.Forms.DataFormats.Rtf, rtf);
-                }
+                
                 // 设置图片数据
                 if (selection.Length == 1 && selection.Mode == ContentRangeMode.Content
                     && selection.ContentElements[0] is DomImageElement)

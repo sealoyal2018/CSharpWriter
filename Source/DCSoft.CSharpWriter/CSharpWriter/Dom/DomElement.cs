@@ -1151,14 +1151,6 @@ namespace DCSoft.CSharpWriter.Dom
         {
         }
 
-        /// <summary>
-        /// 输出RTF文档
-        /// </summary>
-        /// <param name="writer">RTF文档书写器</param>
-        public virtual void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-        }
-
         ///// <summary>
         ///// 输出文档
         ///// </summary>

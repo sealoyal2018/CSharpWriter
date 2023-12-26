@@ -7,12 +7,10 @@ can write to 28348092@qq.com(or yyf9989@hotmail.com).
 Project web site is [https://github.com/dcsoft-yyf/CSharpWriter].
 *****************************///@DCHC@
 using System;
-using DCSoft.Printing ;
-using DCSoft.WinForms;
+using DCSoft.Printing;
 
 
-using DCSoft.CSharpWriter.Dom.Undo ;
-using DCSoft.CSharpWriter.RTF;
+using DCSoft.CSharpWriter.Dom.Undo;
 
 using System.Xml.Serialization;
 
@@ -24,7 +22,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using DCSoft.CSharpWriter.Commands;
 using System.IO;
-using DCSoft.CSharpWriter.Data;
 using System.Text;
 using DCSoft.CSharpWriter.Script;
 using DCSoft.CSharpWriter.Security;
@@ -32,14 +29,14 @@ using DCSoft.CSharpWriter.Security;
 
 namespace DCSoft.CSharpWriter.Dom
 {
-	/// <summary>
-	/// 文本文档对象
-	/// </summary>
-	/// <remarks>
-	/// XTextDocument 是文本文档对象模型的顶级对象,是外部程序访问文档对象模型的入口点,
-	/// 它包含了一些控制文本文档整体的成员.包括文档对象的组织,文档视图内容的绘制,用户界面事件处理.
-	/// 编制 袁永福 2012-4-12
-	/// </remarks>
+    /// <summary>
+    /// 文本文档对象
+    /// </summary>
+    /// <remarks>
+    /// XTextDocument 是文本文档对象模型的顶级对象,是外部程序访问文档对象模型的入口点,
+    /// 它包含了一些控制文本文档整体的成员.包括文档对象的组织,文档视图内容的绘制,用户界面事件处理.
+    /// 编制 袁永福 2012-4-12
+    /// </remarks>
     [System.Xml.Serialization.XmlType("XTextDocument")]
     [Serializable]
     [System.Runtime.InteropServices.ComVisible(true)]
@@ -879,14 +876,7 @@ namespace DCSoft.CSharpWriter.Dom
         /// </summary>
         public override void AfterLoad(FileFormat format)
         {
-            if (format == FileFormat.RTF)
-            {
-                this.Options.ViewOptions.RichTextBoxCompatibility = true;
-            }
-            else
-            {
-                this.Options.ViewOptions.RichTextBoxCompatibility = false;
-            }
+            this.Options.ViewOptions.RichTextBoxCompatibility = false;
             foreach (DocumentContentStyle style in this.ContentStyles.Styles)
             {
                 XDependencyObject.ApplyDefaultValuePropertyNames(
@@ -1144,17 +1134,6 @@ namespace DCSoft.CSharpWriter.Dom
          
 		#region 加载和保存文档内容的成员群 ************************************
 
-        /// <summary>
-        /// 输出RTF文档
-        /// </summary>
-        /// <param name="writer">RTF文档书写器</param>
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            writer.WriteStartDocument( this );
-            writer.ClipRectangle = new RectangleF(0, 0, this.Body.Width, this.Body.Height);
-            this.Body.WriteRTF(writer);
-            writer.WriteEndDocument();
-        }
 
         public override void WriteHTML(DCSoft.CSharpWriter.Html.WriterHtmlDocumentWriter writer)
 		{
@@ -1257,10 +1236,6 @@ namespace DCSoft.CSharpWriter.Dom
             {
                 DocumentLoader.LoadTextFile(fileName, this);
             }
-            else if (format == FileFormat.RTF)
-            {
-                DocumentLoader.LoadRTFFile(fileName, this);
-            }
             else if (format == FileFormat.XML)
             {
                 DocumentLoader.LoadXmlFile(fileName, this);
@@ -1308,10 +1283,6 @@ namespace DCSoft.CSharpWriter.Dom
             if (format == FileFormat.Text)
             {
                 DocumentLoader.LoadTextFile(reader, this);
-            }
-            else if (format == FileFormat.RTF)
-            {
-                DocumentLoader.LoadRTFFile(reader, this);
             }
             else if (format == FileFormat.XML)
             {
@@ -1364,10 +1335,6 @@ namespace DCSoft.CSharpWriter.Dom
             {
                 DocumentLoader.LoadTextFile(stream, this);
             }
-            else if (format == FileFormat.RTF)
-            {
-                DocumentLoader.LoadRTFFile(stream, this);
-            }
             else if (format == FileFormat.XML)
             {
                 DocumentLoader.LoadXmlFile(stream, this);
@@ -1417,11 +1384,7 @@ namespace DCSoft.CSharpWriter.Dom
         public virtual void Save(string fileName, FileFormat format)
         {
             UpdateUserInfoSaveTime();
-            if (format == FileFormat.RTF)
-            {
-                DocumentSaver.SaveRTFFile(fileName, this);
-            }
-            else if (format == FileFormat.Text)
+            if (format == FileFormat.Text)
             {
                 DocumentSaver.SaveTextFile(fileName, this);
             }
@@ -1440,7 +1403,7 @@ namespace DCSoft.CSharpWriter.Dom
             }
             else if (format == FileFormat.Html)
             {
-                DocumentSaver.SaveHtmlFile(fileName, true, this);
+                //DocumentSaver.SaveHtmlFile(fileName, true, this);
             }
             this.FileName = fileName;
             this.Modified = false;
@@ -1454,11 +1417,7 @@ namespace DCSoft.CSharpWriter.Dom
         /// <param name="format">文件格式</param>
         public virtual void Save(System.IO.Stream stream, FileFormat format)
         {
-            if (format == FileFormat.RTF)
-            {
-                DocumentSaver.SaveRTFFile(stream, this);
-            }
-            else if (format == FileFormat.Text)
+            if (format == FileFormat.Text)
             {
                 DocumentSaver.SaveTextFile(stream, this);
             }
@@ -1484,13 +1443,9 @@ namespace DCSoft.CSharpWriter.Dom
         /// </summary>
         /// <param name="stream">文件流</param>
         /// <param name="format">文件格式</param>
-        public virtual void Save(System.IO.TextWriter writer , FileFormat format)
+        public virtual void Save(System.IO.TextWriter writer, FileFormat format)
         {
-            if (format == FileFormat.RTF)
-            {
-                DocumentSaver.SaveRTFFile(writer, this);
-            }
-            else if (format == FileFormat.Text)
+            if (format == FileFormat.Text)
             {
                 DocumentSaver.SaveTextFile(writer, this);
             }
@@ -1511,14 +1466,15 @@ namespace DCSoft.CSharpWriter.Dom
             this.OnSelectionChanged();
         }
 
-		#endregion
-         
+
+        #endregion
+
 
         /// <summary>
         /// 创建画布对象
         /// </summary>
         /// <returns>创建的画布对象</returns>
-		public virtual System.Drawing.Graphics CreateGraphics()
+        public virtual System.Drawing.Graphics CreateGraphics()
 		{
             if (this.EditorControl == null || this.EditorControl.IsHandleCreated == false )
             {
@@ -2580,54 +2536,6 @@ namespace DCSoft.CSharpWriter.Dom
                 DocumentLoader.LoadXmlFile(reader, this);
             }
         }
-
-
-		/// <summary>
-		/// 获得文档的RTF文本代码
-		/// </summary>
-		/// <param name="IncludeSelectionOnly">是否只包含选择区域</param>
-		/// <returns>获得的RTF文本代码字符串</returns>
-		public string GetRTFText( bool IncludeSelectionOnly )
-		{
-			System.IO.StringWriter writer = new System.IO.StringWriter();
-			RTFContentWriter w = new RTFContentWriter( );
-			w.IncludeSelectionOnly = IncludeSelectionOnly ;
-			w.Open( writer );
-            w.Document = this;
-            w.CollectionDocumentsStyle();
-			this.WriteRTF( w );
-			w.Close();
-			return writer.ToString();
-		}
-
-		/// <summary>
-		/// 文档的所有的RTF文本代码
-		/// </summary>
-		[XmlIgnore()]
-        [Browsable( false)]
-        public string RTFText
-		{
-			get
-			{
-				return GetRTFText( false );
-			}
-            set
-            {
-                if (value == null
-                    || value.IndexOf("{") < 0 
-                    || value.IndexOf("}") < 0 )
-                {
-                    this.Text = value;
-                }
-                else
-                {
-                    RTFLoader loader = new RTFLoader();
-                    loader.EnableDocumentSetting = true;
-                    loader.LoadRTFText(value);
-                    loader.FillTo(this);
-                }
-            }
-		}
 
 		/// <summary>
 		/// 文档所有的文本内容

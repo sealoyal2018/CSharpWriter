@@ -393,10 +393,7 @@ namespace DCSoft.CSharpWriter.Commands
                         }
                     }
                 }
-                if (string.IsNullOrEmpty(parameter.RTFText) == false)
-                {
-                    args.Result = args.DocumentControler.InsertRTF(parameter.RTFText);
-                }
+
             }
         }
 

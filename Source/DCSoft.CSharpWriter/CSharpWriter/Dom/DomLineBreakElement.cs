@@ -64,10 +64,5 @@ namespace DCSoft.CSharpWriter.Dom
 		{
 			writer.WriteElementString("br" , "");
 		}
-
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            writer.WriteLineBreak();
-        }
 	}
 }

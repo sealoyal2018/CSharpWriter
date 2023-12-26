@@ -371,21 +371,6 @@ namespace DCSoft.CSharpWriter.Dom
 			writer.WriteEndElement();
 		}
          
-
-        /// <summary>
-        /// 输出RTF文档
-        /// </summary>
-        /// <param name="writer">RTF文档书写器</param>
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            writer.WriteStartParagraph(this.RuntimeStyle);
-             
-            foreach (DomElement element in this.Elements)
-            {
-                element.WriteRTF(writer);
-            }
-            writer.WriteEndParagraph();
-        }
 	}
 
 }

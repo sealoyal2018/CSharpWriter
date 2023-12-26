@@ -525,17 +525,6 @@ namespace DCSoft.CSharpWriter.Dom
             this.ExecuteLayout();
         }
 
-        /// <summary>
-        /// 输出RTF文档
-        /// </summary>
-        /// <param name="writer"></param>
-        public override void WriteRTF(DCSoft.CSharpWriter.RTF.RTFContentWriter writer)
-        {
-            writer.bolFirstParagraph = true;
-            writer.ClipRectangle = new RectangleF(0, 0, this.OwnerDocument.Width, this.Height);
-            base.WriteRTF(writer);
-            writer.bolFirstParagraph = false;
-        }
 
         public int FixPageLinePosition(int pos)
         {

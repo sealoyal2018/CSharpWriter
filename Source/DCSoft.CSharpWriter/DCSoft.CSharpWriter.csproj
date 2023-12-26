@@ -252,48 +252,6 @@
     <Compile Include="Printing\XPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="RTF\ByteBuffer.cs" />
-    <Compile Include="RTF\DocumentFormatInfo.cs" />
-    <Compile Include="RTF\Parser.cs" />
-    <Compile Include="RTF\ProgressEventHandler.cs" />
-    <Compile Include="RTF\RTFAlignment.cs" />
-    <Compile Include="RTF\RTFAttribute.cs" />
-    <Compile Include="RTF\RTFBorderStyle.cs" />
-    <Compile Include="RTF\RTFColorTable.cs" />
-    <Compile Include="RTF\RTFConsts.cs" />
-    <Compile Include="RTF\RTFDocumentInfo.cs" />
-    <Compile Include="RTF\RTFDocumentWriter.cs" />
-    <Compile Include="RTF\RTFDomBookmark.cs" />
-    <Compile Include="RTF\RTFDomDocument.cs" />
-    <Compile Include="RTF\RTFDomElement.cs" />
-    <Compile Include="RTF\RTFDomElementContainer.cs" />
-    <Compile Include="RTF\RTFDomElementList.cs" />
-    <Compile Include="RTF\RTFDomField.cs" />
-    <Compile Include="RTF\RTFDomHeader.cs" />
-    <Compile Include="RTF\RTFDomImage.cs" />
-    <Compile Include="RTF\RTFDomLineBreak.cs" />
-    <Compile Include="RTF\RTFDomObject.cs" />
-    <Compile Include="RTF\RTFDomPageBreak.cs" />
-    <Compile Include="RTF\RTFDomParagraph.cs" />
-    <Compile Include="RTF\RTFDomShape.cs" />
-    <Compile Include="RTF\RTFDomShapeGroup.cs" />
-    <Compile Include="RTF\RTFDomTable.cs" />
-    <Compile Include="RTF\RTFDomTableCell.cs" />
-    <Compile Include="RTF\RTFDomTableColumn.cs" />
-    <Compile Include="RTF\RTFDomTableRow.cs" />
-    <Compile Include="RTF\RTFDomTempContainer.cs" />
-    <Compile Include="RTF\RTFDomText.cs" />
-    <Compile Include="RTF\RTFFontTable.cs" />
-    <Compile Include="RTF\RTFInstanceDebugView.cs" />
-    <Compile Include="RTF\RTFNode.cs" />
-    <Compile Include="RTF\RTFNodeGroup.cs" />
-    <Compile Include="RTF\RTFNodeList.cs" />
-    <Compile Include="RTF\RTFNodeType.cs" />
-    <Compile Include="RTF\RTFRawDocument.cs" />
-    <Compile Include="RTF\RTFUtil.cs" />
-    <Compile Include="RTF\RTFVerticalAlignment.cs" />
-    <Compile Include="RTF\RTFWriter.cs" />
-    <Compile Include="RTF\StringAttribute.cs" />
     <Compile Include="Script\dlgBrowseGACAssembly.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -636,8 +594,6 @@
     <Compile Include="CSharpWriter\Printing\WriterPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CSharpWriter\RTF\RTFContentWriter.cs" />
-    <Compile Include="CSharpWriter\RTF\RTFLoader.cs" />
     <Compile Include="CSharpWriter\Script\dlgExpressionEditor.cs">
       <SubType>Form</SubType>
     </Compile>

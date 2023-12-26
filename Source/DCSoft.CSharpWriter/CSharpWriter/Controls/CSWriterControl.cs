@@ -1408,36 +1408,6 @@ namespace DCSoft.CSharpWriter.Controls
         }
 
         /// <summary>
-        /// RTF文本
-        /// </summary>
-        [System.ComponentModel.Browsable(false)]
-        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
-        public string RTFText
-        {
-            get
-            {
-                if (this.Document == null)
-                {
-                    return "";
-                }
-                else
-                {
-                    return this.Document.RTFText;
-                }
-            }
-            set
-            {
-                CheckHandle();
-                if (this.Document != null)
-                {
-                    this.Document.RTFText = value;
-                }
-                this.RefreshDocument();
-                this.Invalidate();
-            }
-        }
-
-        /// <summary>
         /// XML文本
         /// </summary>
         [System.ComponentModel.Browsable(false)]
